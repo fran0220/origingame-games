@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111514" />
+    <title>数值与关卡配置</title>
+    <script type="module" crossorigin src="./assets/balanceStudio-DIo-raUW.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="modulepreload" crossorigin href="./assets/bossMechanics-21H4M662.js">
+    <link rel="modulepreload" crossorigin href="./assets/balanceSimulator-BeaDXWA2.js">
+    <link rel="stylesheet" crossorigin href="./assets/bossMechanics-B2GZ6tEX.css">
+    <link rel="stylesheet" crossorigin href="./assets/balanceStudio-BBiGKmS5.css">
+  </head>
+  <body>
+    <section id="balance-lab" class="balance-lab" data-standalone aria-label="数值与关卡配置面板">
+      <header class="lab-header">
+        <div><p class="lab-kicker">BALANCE & LEVEL CONTROL</p><h2>数值与关卡配置</h2></div>
+        <div class="lab-header-actions">
+          <span id="balance-dirty" class="lab-dirty" hidden>有未保存修改</span>
+          <button id="balance-save" class="lab-save" type="button">保存配置</button>
+          <button id="balance-export" class="lab-export" type="button">导出 JSON</button>
+          <a id="balance-lab-close" class="lab-close" href="./index.html" aria-label="返回游戏" title="返回游戏">×</a>
+        </div>
+      </header>
+      <div class="lab-shell">
+        <aside class="lab-sidebar">
+          <nav class="lab-nav" aria-label="配置分类">
+            <button class="is-active" data-lab-tab="overview" type="button"><span>01</span>难度总览</button>
+            <button data-lab-tab="levels" type="button"><span>02</span>关卡与波次</button>
+            <button data-lab-tab="towers" type="button"><span>03</span>防御塔数值</button>
+            <button data-lab-tab="enemies" type="button"><span>04</span>敌人属性</button>
+          </nav>
+          <div class="lab-run-panel">
+            <label>测试代理<select id="balance-profile"><option value="standard">稳健扩张</option><option value="rush">快速铺场</option><option value="upgrade">关键位升级</option><option value="adaptive" selected>自适应策略</option></select></label>
+            <label>每关样本<input id="balance-trials" type="number" min="1" max="100" step="1" value="20" /></label>
+            <button id="balance-run" class="lab-run" type="button">重新评估难度</button>
+            <p>使用当前面板中的草稿配置，无需先保存。</p>
+          </div>
+        </aside>
+        <main class="lab-content">
+          <section class="lab-pane is-active" data-lab-pane="overview">
+            <div class="pane-heading"><div><span>ANALYSIS</span><h3>难度评估总览</h3></div><div id="balance-status" class="lab-status" role="status">正在读取数值配置…</div></div>
+            <div id="balance-summary" class="lab-summary"></div>
+            <div class="analysis-grid">
+              <article class="analysis-panel"><header><h4>关卡难度曲线</h4><span>0–100</span></header><div id="difficulty-chart" class="difficulty-chart"></div></article>
+              <article class="analysis-panel"><header><h4>胜率 / 核心余量</h4><span>百分比</span></header><div id="survival-chart" class="survival-chart"></div></article>
+            </div>
+            <div class="lab-table-wrap"><table class="lab-table experience-table"><thead><tr><th>关卡</th><th>胜率</th><th>核心余量</th><th>时长</th><th>Boss 存活</th><th>路线差</th><th>难度</th><th>诊断</th></tr></thead><tbody id="balance-results"></tbody></table></div>
+            <section id="balance-detail" class="lab-detail" aria-live="polite"></section>
+          </section>
+          <section class="lab-pane" data-lab-pane="levels">
+            <div class="pane-heading"><div><span>LEVEL DESIGN</span><h3>关卡与波次</h3></div><p>选中波次后，可直接切换本波启用的行军路线。</p></div>
+            <div id="level-selector" class="level-selector"></div><div id="level-settings" class="level-settings"></div>
+            <div class="level-edit-grid">
+              <article class="route-editor"><header><h4>路线与塔位预览</h4><span id="route-caption"></span></header><div id="route-map" class="route-map"></div><div id="route-toggles" class="route-toggles"></div></article>
+              <article class="wave-pressure"><header><h4>波次压力分布</h4><span>敌人生命总量估算</span></header><div id="wave-pressure-chart"></div></article>
+            </div>
+            <div class="wave-editor-heading"><div><h4>波次配置</h4><span id="wave-source"></span></div><button id="add-wave" type="button">添加波次</button></div>
+            <div id="wave-editor" class="wave-editor"></div>
+          </section>
+          <section class="lab-pane" data-lab-pane="towers"><div class="pane-heading"><div><span>DEFENSE</span><h3>防御塔数值</h3></div><p>伤害效率会随修改即时重新计算。</p></div><div id="economy-settings" class="level-settings"></div><div id="tower-editor" class="entity-editor"></div></section>
+          <section class="lab-pane" data-lab-pane="enemies"><div class="pane-heading"><div><span>ENEMIES</span><h3>敌人属性</h3></div><p>护甲输入范围为 0–1。</p></div><div id="enemy-editor" class="entity-editor"></div></section>
+        </main>
+      </div>
+    </section>
+  </body>
+</html>

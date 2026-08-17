@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="276" viewBox="0 0 500 276" role="img" aria-labelledby="title desc">
+  <title id="title">咒术防线</title>
+  <desc id="desc">咒术防线游戏的赛璐璐风格标题艺术字</desc>
+  <defs>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d9fff5"/>
+      <stop offset="0.42" stop-color="#74ecd2"/>
+      <stop offset="1" stop-color="#25a995"/>
+    </linearGradient>
+    <linearGradient id="ivory" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.72" stop-color="#e8f1ed"/>
+      <stop offset="1" stop-color="#b9cdc6"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#aa8438"/>
+      <stop offset="0.5" stop-color="#f4db83"/>
+      <stop offset="1" stop-color="#9c742d"/>
+    </linearGradient>
+    <filter id="shadow" x="-25%" y="-25%" width="160%" height="170%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur"/>
+      <feOffset dx="5" dy="7" result="offset"/>
+      <feFlood flood-color="#020b09" flood-opacity="0.9" result="color"/>
+      <feComposite in="color" in2="offset" operator="in" result="shadow"/>
+      <feMerge>
+        <feMergeNode in="shadow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g opacity="0.9">
+    <path d="M20 39H214L238 53H44Z" fill="#06130f" stroke="#5de6c9" stroke-width="2"/>
+    <path d="M25 45H187" stroke="#bffbed" stroke-width="2"/>
+    <path d="M213 33L242 55L225 72" fill="none" stroke="#e9cb6d" stroke-width="3"/>
+  </g>
+
+  <g filter="url(#shadow)" font-family="Songti SC, STSong, serif" font-weight="900">
+    <text x="15" y="125" font-size="100" fill="url(#ivory)" stroke="#07110f" stroke-width="11" paint-order="stroke fill" transform="rotate(-2 15 125)">咒</text>
+    <text x="111" y="119" font-size="96" fill="url(#ivory)" stroke="#07110f" stroke-width="11" paint-order="stroke fill" transform="rotate(2 111 119)">术</text>
+    <text x="13" y="218" font-size="100" fill="url(#cyan)" stroke="#07110f" stroke-width="11" paint-order="stroke fill" transform="rotate(1 13 218)">防</text>
+    <text x="111" y="224" font-size="98" fill="url(#cyan)" stroke="#07110f" stroke-width="11" paint-order="stroke fill" transform="rotate(-2 111 224)">线</text>
+  </g>
+
+  <g fill="#07110f" opacity="0.96">
+    <path d="M72 70L91 61L82 78Z"/>
+    <path d="M168 92L191 81L178 101Z"/>
+    <path d="M60 171L82 160L69 182Z"/>
+    <path d="M157 188L184 175L168 199Z"/>
+  </g>
+  <g fill="#f1d175">
+    <path d="M88 121L101 112L96 127Z"/>
+    <path d="M92 214L105 204L100 220Z"/>
+  </g>
+
+  <g fill="none" stroke-linecap="square">
+    <path d="M345 67L316 108L354 98L326 139" stroke="#67e7cc" stroke-width="4"/>
+    <path d="M367 86L349 111" stroke="#f1d175" stroke-width="3"/>
+    <path d="M370 159L331 207" stroke="#67e7cc" stroke-width="3" opacity="0.68"/>
+    <path d="M391 142L365 177" stroke="#f1d175" stroke-width="2" opacity="0.8"/>
+  </g>
+
+  <g font-family="Arial, sans-serif">
+    <text x="24" y="248" font-size="15" font-weight="700" fill="#f3d77d" letter-spacing="3.5">JUTSU FRONTLINE</text>
+    <path d="M24 259H214" stroke="url(#gold)" stroke-width="2"/>
+    <path d="M224 259H283" stroke="#68e5cb" stroke-width="2"/>
+  </g>
+</svg>

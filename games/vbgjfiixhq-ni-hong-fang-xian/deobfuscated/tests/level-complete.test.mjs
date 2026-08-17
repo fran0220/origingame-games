@@ -1,0 +1,21 @@
+import _0x4734f6 from "node:assert/strict";
+import { readFile as _0x5d974f } from "node:fs/promises";
+import _0x32343c from "node:test";
+const o = new URL("../", import.meta.url);
+_0x32343c("campaign result opens the cyberpunk victory or defeat dialog", async () => {
+  const [_0x2ab85c, _0x21feaf] = await Promise.all([_0x5d974f(new URL("index.html", o), "utf8"), _0x5d974f(new URL("gameplay.js", o), "utf8")]);
+  _0x4734f6.match(_0x2ab85c, /id="level-complete"[^>]*role="dialog"[^>]*aria-modal="true"/);
+  _0x4734f6.match(_0x2ab85c, /id="level-complete-title">基地安然无恙</);
+  _0x4734f6.match(_0x2ab85c, /window\.showLevelComplete\s*=/);
+  _0x4734f6.match(_0x2ab85c, /victory \? '基地安然无恙' : '基地失守'/);
+  _0x4734f6.match(_0x2ab85c, /data-outcome="defeat"/);
+  _0x4734f6.match(_0x2ab85c, /REDEPLOY \/\/ 重新部署/);
+  _0x4734f6.match(_0x2ab85c, /window\.restartCampaignBattle/);
+  _0x4734f6.match(_0x2ab85c, /NEXT SECTOR \/\/ 下一关/);
+  _0x4734f6.match(_0x2ab85c, /openCommandCenter\(\);\s*selectCommandCenterMap\(nextMapIndex\);/);
+  _0x4734f6.match(_0x2ab85c, /mapSelect\.dispatchEvent\(new Event\('change', \{ bubbles: true \}\)\)/);
+  _0x4734f6.match(_0x21feaf, /window\.showLevelComplete\?\.\(\{/);
+  _0x4734f6.match(_0x21feaf, /victory: false/);
+  _0x4734f6.match(_0x21feaf, /window\.restartCampaignBattle = restartCampaignBattle/);
+  _0x4734f6.match(_0x21feaf, /newlyUnlocked: Boolean\(result\?\.newlyUnlocked\)/);
+});

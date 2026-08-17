@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<script id="__og-game-config">window.__OG_GAME={"id":"g6soht516k","version":1,"releaseId":"release_g6soht516k_v1"}</script>
+<script src="/__og/og-sdk.js"></script>
+<link rel="manifest" href="./manifest.webmanifest">
+<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(function(){})})}</script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>符文卡牌决斗</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101215;
+      --panel: #1b2028;
+      --panel-2: #242b35;
+      --line: #3a4350;
+      --text: #f4f1e8;
+      --muted: #aeb7c2;
+      --gold: #f0bf57;
+      --red: #e86f61;
+      --blue: #5ca8e8;
+      --green: #62c57b;
+      --ink: #101215;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: radial-gradient(circle at 50% 0%, #30323a 0, #17191f 48%, #0f1114 100%);
+      color: var(--text);
+      overflow-x: hidden;
+      touch-action: manipulation;
+    }
+
+    body {
+      min-height: 100dvh;
+      display: grid;
+      place-items: stretch;
+    }
+
+    button {
+      border: 0;
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .game {
+      width: min(1180px, 100%);
+      min-height: 100dvh;
+      margin: 0 auto;
+      padding: max(14px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+      display: grid;
+      grid-template-rows: auto auto minmax(0, 1fr) auto;
+      gap: 12px;
+    }
+
+    .topbar,
+    .status,
+    .hand,
+    .actions {
+      background: color-mix(in srgb, var(--panel) 88%, transparent);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+    }
+
+    .topbar {
+      border-radius: 8px;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(24px, 4vw, 42px);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .scorebox {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(72px, 1fr));
+      gap: 8px;
+      min-width: min(340px, 45vw);
+    }
+
+    .metric {
+      min-height: 62px;
+      padding: 9px 10px;
+      border-radius: 7px;
+      background: var(--panel-2);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: grid;
+      align-content: center;
+      gap: 3px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .metric strong {
+      font-size: 24px;
+      line-height: 1;
+      color: var(--gold);
+    }
+
+    .status {
+      border-radius: 8px;
+      padding: 10px 12px;
+      min-height: 48px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .message {
+      font-size: 15px;
+      line-height: 1.35;
+      color: #e9edf2;
+    }
+
+    .rule {
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .arena {
+      min-height: 270px;
+      display: grid;
+      grid-template-columns: minmax(116px, 170px) minmax(0, 1fr) minmax(116px, 170px);
+      gap: clamp(10px, 3vw, 28px);
+      align-items: center;
+    }
+
+    .fighter {
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+    }
+
+    .avatar {
+      width: min(30vw, 150px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.35), transparent 0 18%, transparent),
+        linear-gradient(145deg, #3a4350, #15191f);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      display: grid;
+      place-items: center;
+      font-size: clamp(42px, 10vw, 78px);
+      box-shadow: inset 0 0 28px rgba(255, 255, 255, 0.05), 0 18px 45px rgba(0, 0, 0, 0.32);
+    }
+
+    .fighter h2 {
+      margin: 0;
+      font-size: 16px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .wins {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+    }
+
+    .pip {
+      height: 9px;
+      border-radius: 999px;
+      background: #2c333d;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .pip.on {
+      background: var(--gold);
+      box-shadow: 0 0 14px rgba(240, 191, 87, 0.55);
+    }
+
+    .duel {
+      display: grid;
+      grid-template-columns: minmax(96px, 180px) minmax(54px, 86px) minmax(96px, 180px);
+      gap: clamp(8px, 2vw, 18px);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .versus {
+      display: grid;
+      place-items: center;
+      color: var(--gold);
+      font-weight: 900;
+      font-size: clamp(20px, 4vw, 34px);
+      text-shadow: 0 3px 16px rgba(240, 191, 87, 0.4);
+    }
+
+    .card {
+      position: relative;
+      min-width: 0;
+      aspect-ratio: 3 / 4.25;
+      border-radius: 8px;
+      border: 2px solid rgba(255, 255, 255, 0.14);
+      background: linear-gradient(160deg, #f5f0df, #cfc5a8);
+      color: var(--ink);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      overflow: hidden;
+      transform: translateZ(0);
+    }
+
+    .card.back {
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0 8%, transparent 8% 16%, rgba(255, 255, 255, 0.12) 16% 24%, transparent 24% 32%),
+        linear-gradient(160deg, #334150, #171d25);
+      color: var(--text);
+      border-color: #677080;
+    }
+
+    .card.back::after {
+      content: "";
+      position: absolute;
+      inset: 16%;
+      border: 2px solid rgba(240, 191, 87, 0.8);
+      border-radius: 8px;
+      box-shadow: inset 0 0 0 8px rgba(240, 191, 87, 0.1);
+    }
+
+    .card.fire {
+      --accent: var(--red);
+    }
+
+    .card.water {
+      --accent: var(--blue);
+    }
+
+    .card.leaf {
+      --accent: var(--green);
+    }
+
+    .card .head {
+      padding: 9px 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 8px;
+      font-weight: 850;
+    }
+
+    .card .name {
+      font-size: clamp(13px, 2vw, 18px);
+      line-height: 1.05;
+      overflow-wrap: anywhere;
+    }
+
+    .card .power {
+      min-width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--accent, var(--gold));
+      color: #111;
+      border: 2px solid rgba(0, 0, 0, 0.18);
+      font-size: 20px;
+      font-weight: 950;
+    }
+
+    .art {
+      margin: 7px 9px;
+      border-radius: 7px;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.8), transparent 0 12%, transparent),
+        linear-gradient(160deg, color-mix(in srgb, var(--accent, var(--gold)) 70%, #fff), color-mix(in srgb, var(--accent, var(--gold)) 35%, #222));
+      display: grid;
+      place-items: center;
+      font-size: clamp(34px, 8vw, 70px);
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.24);
+    }
+
+    .tag {
+      margin: 0 10px 10px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      background: rgba(16, 18, 21, 0.13);
+      font-size: 12px;
+      font-weight: 750;
+      text-align: center;
+      min-height: 30px;
+      display: grid;
+      place-items: center;
+    }
+
+    .hand {
+      border-radius: 8px;
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .hand-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(88px, 1fr));
+      gap: 10px;
+    }
+
+    .cards button.card {
+      width: 100%;
+      transition: transform 150ms ease, border-color 150ms ease, filter 150ms ease;
+    }
+
+    .cards button.card:disabled {
+      cursor: default;
+      filter: grayscale(0.25) brightness(0.74);
+    }
+
+    .cards button.card:not(:disabled):hover,
+    .cards button.card:not(:disabled):focus-visible {
+      transform: translateY(-7px);
+      border-color: var(--gold);
+      outline: 0;
+    }
+
+    .actions {
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .primary {
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 7px;
+      background: var(--gold);
+      color: #17130a;
+      font-weight: 850;
+    }
+
+    .primary:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .leaderboard {
+      color: var(--muted);
+      font-size: 13px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 760px) {
+      .game {
+        grid-template-rows: auto auto auto auto;
+        gap: 10px;
+      }
+
+      .topbar,
+      .status,
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .scorebox {
+        min-width: 0;
+        width: 100%;
+      }
+
+      .arena {
+        grid-template-columns: 1fr;
+        min-height: 0;
+      }
+
+      .fighter {
+        display: none;
+      }
+
+      .duel {
+        grid-template-columns: minmax(92px, 1fr) 44px minmax(92px, 1fr);
+      }
+
+      .cards {
+        grid-template-columns: repeat(5, minmax(76px, 1fr));
+        overflow-x: auto;
+        padding-bottom: 4px;
+        scroll-snap-type: x mandatory;
+      }
+
+      .cards button.card {
+        min-width: 112px;
+        scroll-snap-align: start;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .scorebox {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .metric {
+        min-height: 54px;
+        padding: 8px;
+      }
+
+      .metric strong {
+        font-size: 20px;
+      }
+
+      .duel {
+        grid-template-columns: minmax(82px, 1fr) 34px minmax(82px, 1fr);
+      }
+
+      .versus {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="game" aria-label="符文卡牌决斗">
+    <section class="topbar">
+      <div>
+        <h1>符文卡牌决斗</h1>
+        <div class="subtitle">从手牌中选择一张出战。火克叶，叶克水，水克火；克制时 +2 点。</div>
+      </div>
+      <div class="scorebox" aria-label="比分">
+        <div class="metric"><span>你的胜场</span><strong id="playerWins">0</strong></div>
+        <div class="metric"><span>对手胜场</span><strong id="enemyWins">0</strong></div>
+        <div class="metric"><span>本局分数</span><strong id="score">0</strong></div>
+      </div>
+    </section>
+
+    <section class="status">
+      <div class="message" id="message">选择一张手牌开始第一回合。</div>
+      <div class="rule">先赢 5 回合获胜</div>
+    </section>
+
+    <section class="arena" aria-label="决斗区">
+      <div class="fighter">
+        <div class="avatar" aria-hidden="true">♜</div>
+        <h2>你</h2>
+        <div class="wins" id="playerPips" aria-label="你的胜场进度"></div>
+      </div>
+      <div class="duel">
+        <article class="card back" id="playerCard" aria-label="你的出战牌"></article>
+        <div class="versus">VS</div>
+        <article class="card back" id="enemyCard" aria-label="对手出战牌"></article>
+      </div>
+      <div class="fighter">
+        <div class="avatar" aria-hidden="true">☗</div>
+        <h2>对手</h2>
+        <div class="wins" id="enemyPips" aria-label="对手胜场进度"></div>
+      </div>
+    </section>
+
+    <section class="hand">
+      <div class="hand-title">
+        <span>你的手牌</span>
+        <span id="deckCount">牌库 0</span>
+      </div>
+      <div class="cards" id="hand"></div>
+    </section>
+
+    <section class="actions">
+      <button class="primary" id="nextButton" disabled>下一回合</button>
+      <button class="primary" id="newButton">重新开始</button>
+      <div class="leaderboard" id="leaderboard">排行榜将在部署后启用</div>
+    </section>
+  </main>
+
+  <script>const _0x5aea25=_0x33f4;(function(_0x1bd7a0,_0x9ca7e1){const _0x58a3c2=_0x33f4,_0x18b654=_0x1bd7a0();while(!![]){try{const _0x5ea701=parseInt(_0x58a3c2(0x95))/0x1+-parseInt(_0x58a3c2(0xc4))/0x2+-parseInt(_0x58a3c2(0x7f))/0x3*(parseInt(_0x58a3c2(0xbf))/0x4)+-parseInt(_0x58a3c2(0x84))/0x5*(parseInt(_0x58a3c2(0x97))/0x6)+-parseInt(_0x58a3c2(0xaf))/0x7+parseInt(_0x58a3c2(0x7d))/0x8+parseInt(_0x58a3c2(0x8a))/0x9*(parseInt(_0x58a3c2(0x81))/0xa);if(_0x5ea701===_0x9ca7e1)break;else _0x18b654['push'](_0x18b654['shift']());}catch(_0x3df771){_0x18b654['push'](_0x18b654['shift']());}}}(_0x5e15,0xf25dc));const og=window['OG']??null;function _0x33f4(_0x2404e2,_0x6dac37){_0x2404e2=_0x2404e2-0x7d;const _0x5e15ff=_0x5e15();let _0x33f47f=_0x5e15ff[_0x2404e2];if(_0x33f4['LZPpqG']===undefined){var _0x466d29=function(_0x29d3cd){const _0x2cc7a4='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x5b4d36='',_0x1d9e54='';for(let _0x5c78f6=0x0,_0x5dac8a,_0x2246a6,_0x14aa9c=0x0;_0x2246a6=_0x29d3cd['charAt'](_0x14aa9c++);~_0x2246a6&&(_0x5dac8a=_0x5c78f6%0x4?_0x5dac8a*0x40+_0x2246a6:_0x2246a6,_0x5c78f6++%0x4)?_0x5b4d36+=String['fromCharCode'](0xff&_0x5dac8a>>(-0x2*_0x5c78f6&0x6)):0x0){_0x2246a6=_0x2cc7a4['indexOf'](_0x2246a6);}for(let _0x67c028=0x0,_0x37fb7f=_0x5b4d36['length'];_0x67c028<_0x37fb7f;_0x67c028++){_0x1d9e54+='%'+('00'+_0x5b4d36['charCodeAt'](_0x67c028)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x1d9e54);};_0x33f4['vTputE']=_0x466d29,_0x33f4['fkauSR']={},_0x33f4['LZPpqG']=!![];}const _0x4a2994=_0x5e15ff[0x0],_0x2e2ffd=_0x2404e2+_0x4a2994,_0x49d0d9=_0x33f4['fkauSR'][_0x2e2ffd];return!_0x49d0d9?(_0x33f47f=_0x33f4['vTputE'](_0x33f47f),_0x33f4['fkauSR'][_0x2e2ffd]=_0x33f47f):_0x33f47f=_0x49d0d9,_0x33f47f;}og?.[_0x5aea25(0xaa)]?.()['catch'](console['warn']);const elements={'fire':{'label':'火','icon':'♨','beats':'leaf','cls':'fire'},'water':{'label':'水','icon':'◆','beats':_0x5aea25(0xc1),'cls':'water'},'leaf':{'label':'叶','icon':'✦','beats':'water','cls':_0x5aea25(0x8f)}},names={'fire':['熔心','赤焰','余烬','炽轮','火冠'],'water':['潮汐','蓝渊','冰镜','雨刃','雾钟'],'leaf':['翠枝','芽盾','藤弓','森语','绿冠']},state={'deck':[],'hand':[],'playerWins':0x0,'enemyWins':0x0,'score':0x0,'streak':0x0,'roundLocked':![],'gameOver':![]},handEl=document['getElementById']('hand'),playerWinsEl=document['getElementById'](_0x5aea25(0xa1)),enemyWinsEl=document['getElementById'](_0x5aea25(0xae)),scoreEl=document[_0x5aea25(0x87)](_0x5aea25(0xb9)),deckCountEl=document['getElementById'](_0x5aea25(0x94)),messageEl=document[_0x5aea25(0x87)]('message'),playerCardEl=document['getElementById'](_0x5aea25(0xa8)),enemyCardEl=document['getElementById']('enemyCard'),playerPipsEl=document['getElementById'](_0x5aea25(0x96)),enemyPipsEl=document[_0x5aea25(0x87)]('enemyPips'),nextButton=document['getElementById'](_0x5aea25(0xa0)),newButton=document[_0x5aea25(0x87)](_0x5aea25(0xa2)),leaderboardEl=document[_0x5aea25(0x87)]('leaderboard');function rand(_0x5b4d36){const _0x131eb1=_0x5aea25;return Math[_0x131eb1(0xbd)](Math[_0x131eb1(0xa9)]()*_0x5b4d36);}function shuffle(_0x1d9e54){for(let _0x5c78f6=_0x1d9e54['length']-0x1;_0x5c78f6>0x0;_0x5c78f6-=0x1){const _0x5dac8a=rand(_0x5c78f6+0x1);[_0x1d9e54[_0x5c78f6],_0x1d9e54[_0x5dac8a]]=[_0x1d9e54[_0x5dac8a],_0x1d9e54[_0x5c78f6]];}return _0x1d9e54;}function makeDeck(){const _0x48518f=_0x5aea25,_0x2246a6=[];return Object[_0x48518f(0xac)](elements)[_0x48518f(0xb3)](_0x14aa9c=>{const _0x20d209=_0x48518f;for(let _0x67c028=0x1;_0x67c028<=0xa;_0x67c028+=0x1){_0x2246a6['push']({'id':crypto['randomUUID']?crypto['randomUUID']():_0x14aa9c+'-'+_0x67c028+'-'+Math[_0x20d209(0xa9)](),'type':_0x14aa9c,'power':_0x67c028,'name':names[_0x14aa9c][_0x67c028%names[_0x14aa9c]['length']]});}}),shuffle(_0x2246a6);}function draw(_0x37fb7f){const _0x399f4a=_0x5aea25;while(state[_0x399f4a(0xc5)]['length']<_0x37fb7f&&state[_0x399f4a(0xb7)]['length']){state[_0x399f4a(0xc5)]['push'](state[_0x399f4a(0xb7)][_0x399f4a(0xa6)]());}}function cardHtml(_0xbab161){const _0x2a8a3a=_0x5aea25;if(!_0xbab161)return'';const _0x5de489=elements[_0xbab161[_0x2a8a3a(0x9f)]];return'\x0a\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22head\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22name\x22>'+_0xbab161[_0x2a8a3a(0x88)]+_0x2a8a3a(0xb0)+_0x5de489['label']+'符文</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22power\x22>'+_0xbab161['power']+_0x2a8a3a(0x82)+_0x5de489['icon']+_0x2a8a3a(0xb5)+_0x5de489['label']+_0x2a8a3a(0x8d)+elements[_0x5de489[_0x2a8a3a(0x93)]]['label']+'系</div>\x0a\x20\x20\x20\x20\x20\x20';}function renderCard(_0xf78b0f,_0x1bd0bf){const _0x112ebc=_0x5aea25;_0xf78b0f[_0x112ebc(0x85)]=_0x1bd0bf?'card\x20'+elements[_0x1bd0bf[_0x112ebc(0x9f)]]['cls']:'card\x20back',_0xf78b0f[_0x112ebc(0xba)]=cardHtml(_0x1bd0bf);}function renderPips(_0x216954,_0x28c737){const _0x464829=_0x5aea25;_0x216954['innerHTML']='';for(let _0x322257=0x0;_0x322257<0x5;_0x322257+=0x1){const _0x286ed7=document['createElement']('span');_0x286ed7['className']=_0x464829(0xa3)+(_0x322257<_0x28c737?'\x20on':''),_0x216954['appendChild'](_0x286ed7);}}function renderHand(){const _0x49c0f1=_0x5aea25;handEl[_0x49c0f1(0xba)]='',state['hand']['forEach'](_0xfa775=>{const _0x28a590=_0x49c0f1,_0x51dd16=document[_0x28a590(0x92)](_0x28a590(0x98));_0x51dd16[_0x28a590(0x85)]='card\x20'+elements[_0xfa775['type']]['cls'],_0x51dd16[_0x28a590(0x9f)]='button',_0x51dd16[_0x28a590(0x80)]=state[_0x28a590(0xab)]||state[_0x28a590(0xb4)],_0x51dd16[_0x28a590(0xa7)]('aria-label',_0x28a590(0xbe)+_0xfa775['name']+elements[_0xfa775['type']]['label']+'符文，点数'+_0xfa775[_0x28a590(0xbc)]),_0x51dd16['innerHTML']=cardHtml(_0xfa775),_0x51dd16[_0x28a590(0xb8)](_0x28a590(0xb2),()=>playCard(_0xfa775['id'])),handEl['appendChild'](_0x51dd16);});}function render(){const _0x42d9c1=_0x5aea25;playerWinsEl['textContent']=state[_0x42d9c1(0xa1)],enemyWinsEl[_0x42d9c1(0x91)]=state['enemyWins'],scoreEl['textContent']=state[_0x42d9c1(0xb9)],deckCountEl['textContent']=_0x42d9c1(0xad)+state[_0x42d9c1(0xb7)][_0x42d9c1(0x9c)],renderPips(playerPipsEl,state['playerWins']),renderPips(enemyPipsEl,state[_0x42d9c1(0xae)]),renderHand();}function _0x5e15(){const _0xc439d2=['AgfUza','odG0otq3mMnnsLjuEq','5O6s6kgm5QAC5PQc5PE25lIn5y+V55sO','mJu2ntyWoxPvyKjrvq','zgLZywjSzwq','odbNsgfUA3u','pc9KAxy+cIaGicaGicaGpc9KAxy+cIaGicaGicaGpgrPDIbJBgfZCZ0Iyxj0iIbHCMLHlwHPzgrLBJ0IDhj1zsi+','CgXHEwvY','mti1mZG5nwLuCw5xtq','y2XHC3noyw1L','iowVUsa','z2v0rwXLBwvUDej5swq','BMfTzq','Dg9W','ndC4nti0nKH1Eg5jBa','D2LUBMvY','D2fYBG','57o7imk3iowfI+wiTIa','44cc5PYa57Ui5yIg5PwWia','BgvHzG','BgvHzgvYyM9HCMq','Dgv4DenVBNrLBNq','y3jLyxrLrwXLBwvUDa','yMvHDhm','zgvJA0nVDw50','ntmXmdaWzLfrDMPi','CgXHEwvYugLWCW','mtHus2HRvMu','yNv0Dg9U','CgXHEwvYvMfSDwu','5l2G6lwI5lIl5Pw05zY65yAZ5PAx','BwfW','BgvUz3rO','6lwI5lIl5Pw05zY65zco5O+q5lQK5O6s6kgm5QAC','zw5LBxK','DhLWzq','BMv4Dej1DhrVBG','CgXHEwvYv2LUCW','BMv3qNv0Dg9U','CgLW','6ycj5OUP5lIa5BYG5OMl54Mm5BYa5AEl56YS5lIa5zUE5zci44cc','C3bSAwnL','Cg9W','C2v0qxr0CMLIDxrL','CgXHEwvYq2fYza','CMfUzg9T','CMvHzhK','CM91BMrmB2nRzwq','A2v5CW','54Mm5BQtia','zw5LBxLxAw5Z','mtaZntu0odvgBuTvz24','pgjYpG','5BEY5O+q5lQK','y2XPy2S','zM9YrwfJAa','z2fTzu92zxi','pc9KAxy+cIaGicaGicaGpgrPDIbJBgfZCZ0IDgfNiJ4','imk3ia','zgvJAW','ywrKrxzLBNrmAxn0zw5LCG','C2nVCMu','Aw5Uzxjive1m','5BMZ5Bga77YA','Cg93zxi','zMXVB3i','5yE654Mm77YA','ofLszNPgCq','77Ym6l+E6ioCia','zMLYzq','zw5LBxLwywX1zq','C3rYzwfR','mtKXmtGXmKjorMr6AG'];_0x5e15=function(){return _0xc439d2;};return _0x5e15();}function compare(_0x4aa9f6,_0x3dca16){const _0x36d31d=_0x5aea25;let _0x32eaae=_0x4aa9f6['power'],_0x292c56=_0x3dca16[_0x36d31d(0xbc)];if(elements[_0x4aa9f6[_0x36d31d(0x9f)]]['beats']===_0x3dca16['type'])_0x32eaae+=0x2;if(elements[_0x3dca16[_0x36d31d(0x9f)]]['beats']===_0x4aa9f6['type'])_0x292c56+=0x2;if(_0x32eaae===_0x292c56)return{'winner':'draw','playerValue':_0x32eaae,'enemyValue':_0x292c56};return{'winner':_0x32eaae>_0x292c56?_0x36d31d(0x83):'enemy','playerValue':_0x32eaae,'enemyValue':_0x292c56};}async function finishGame(_0x3aa5bc){const _0x50979b=_0x5aea25;state[_0x50979b(0xb4)]=!![],state[_0x50979b(0xab)]=!![],nextButton[_0x50979b(0x80)]=!![];const _0x2ec10c=_0x3aa5bc?_0x50979b(0x9a):'对手赢下整场决斗';messageEl['textContent']=_0x2ec10c+_0x50979b(0x8e)+state['score']+'。',render();if(og?.[_0x50979b(0x90)]&&_0x3aa5bc)try{const _0x2471ad=await og[_0x50979b(0x90)]['submit'](state[_0x50979b(0xb9)]),_0x4c4440=await og['leaderboard'][_0x50979b(0x89)](0x5),_0x4f8a93=_0x2471ad?.['rank']?'第\x20'+_0x2471ad['rank']+'\x20名':_0x50979b(0xb1),_0x3c3488=(_0x4c4440?.[_0x50979b(0x89)]??[])['slice'](0x0,0x3)[_0x50979b(0x9b)](_0x2e5f1b=>(_0x2e5f1b[_0x50979b(0x88)]??'玩家')+'\x20'+_0x2e5f1b['score'])['join'](_0x50979b(0xb6));leaderboardEl['textContent']=_0x3c3488?'排行榜\x20'+_0x4f8a93+':\x20'+_0x3c3488:'排行榜\x20'+_0x4f8a93;}catch(_0x273b8d){console[_0x50979b(0x8c)](_0x273b8d),leaderboardEl[_0x50979b(0x91)]=_0x50979b(0x7e);}}function playCard(_0x1f06ea){const _0xe5a882=_0x5aea25;if(state[_0xe5a882(0xab)]||state[_0xe5a882(0xb4)])return;const _0x4a33a9=state['hand']['findIndex'](_0x3adf83=>_0x3adf83['id']===_0x1f06ea);if(_0x4a33a9<0x0)return;const [_0x395295]=state[_0xe5a882(0xc5)][_0xe5a882(0xa5)](_0x4a33a9,0x1),_0x3ae2e0=state[_0xe5a882(0xb7)]['pop']()??state['hand'][rand(state['hand']['length'])],_0xc1f327=compare(_0x395295,_0x3ae2e0);renderCard(playerCardEl,_0x395295),renderCard(enemyCardEl,_0x3ae2e0);if(_0xc1f327['winner']==='player'){state['playerWins']+=0x1,state['streak']+=0x1;const _0x1d2525=0x64+_0x395295['power']*0xa+state[_0xe5a882(0xc3)]*0x19;state['score']+=_0x1d2525,messageEl['textContent']='本回合胜利：'+_0xc1f327['playerValue']+'\x20对\x20'+_0xc1f327['enemyValue']+_0xe5a882(0xc0)+state['streak']+'，+'+_0x1d2525+'\x20分。';}else _0xc1f327[_0xe5a882(0x8b)]===_0xe5a882(0x9e)?(state['enemyWins']+=0x1,state[_0xe5a882(0xc3)]=0x0,messageEl[_0xe5a882(0x91)]='本回合失利：'+_0xc1f327[_0xe5a882(0x99)]+_0xe5a882(0x86)+_0xc1f327[_0xe5a882(0xc2)]+'。'):(state[_0xe5a882(0xb9)]+=0x23,messageEl['textContent']=_0xe5a882(0xbb)+_0xc1f327[_0xe5a882(0x99)]+'\x20对\x20'+_0xc1f327['enemyValue']+'，+35\x20分。');state['roundLocked']=!![],nextButton['disabled']=![],draw(0x5),render(),(state[_0xe5a882(0xa1)]>=0x5||state['enemyWins']>=0x5||!state[_0xe5a882(0xb7)]['length']&&!state['hand']['length'])&&finishGame(state[_0xe5a882(0xa1)]>=state[_0xe5a882(0xae)]);}function nextRound(){const _0x2c9db4=_0x5aea25;if(state['gameOver'])return;state[_0x2c9db4(0xab)]=![],nextButton[_0x2c9db4(0x80)]=!![],renderCard(playerCardEl,null),renderCard(enemyCardEl,null),messageEl[_0x2c9db4(0x91)]='继续选择一张手牌。',draw(0x5),render();}function newGame(){const _0x533a6c=_0x5aea25;state[_0x533a6c(0xb7)]=makeDeck(),state[_0x533a6c(0xc5)]=[],state[_0x533a6c(0xa1)]=0x0,state[_0x533a6c(0xae)]=0x0,state['score']=0x0,state['streak']=0x0,state[_0x533a6c(0xab)]=![],state['gameOver']=![],leaderboardEl['textContent']=og?.[_0x533a6c(0x90)]?_0x533a6c(0x9d):'排行榜将在部署后启用',nextButton[_0x533a6c(0x80)]=!![],renderCard(playerCardEl,null),renderCard(enemyCardEl,null),draw(0x5),messageEl['textContent']=_0x533a6c(0xa4),render();}nextButton[_0x5aea25(0xb8)]('click',nextRound),newButton['addEventListener'](_0x5aea25(0xb2),newGame),newGame();</script>
+</body>
+</html>

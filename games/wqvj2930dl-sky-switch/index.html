@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script id="__og-game-config">window.__OG_GAME={"id":"wqvj2930dl","version":1,"releaseId":"release_wqvj2930dl_v1"}</script>
+<script src="/__og/og-sdk.js"></script>
+<link rel="manifest" href="./manifest.webmanifest">
+<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(function(){})})}</script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1020">
+  <title>Sky Switch</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="game-shell" aria-label="Sky Switch game">
+    <canvas id="game" width="1280" height="720"></canvas>
+    <div class="hud" aria-hidden="true">
+      <div class="hud-item"><span>Score</span><strong id="score">0</strong></div>
+      <div class="hud-item"><span>Best</span><strong id="best">0</strong></div>
+      <button id="sound" class="icon-button" type="button" aria-label="Toggle sound">♪</button>
+    </div>
+    <div id="overlay" class="overlay">
+      <div class="title-block">
+        <h1>Sky Switch</h1>
+        <p>Leap between cloud platforms, grab stars, and avoid red sparks.</p>
+        <button id="start" type="button">Start</button>
+      </div>
+    </div>
+    <div class="touch-controls" aria-hidden="true">
+      <button data-control="left" type="button">←</button>
+      <button data-control="jump" type="button">↑</button>
+      <button data-control="right" type="button">→</button>
+    </div>
+  </main>
+
+  <script src="./game.js"></script>
+</body>
+</html>

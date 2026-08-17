@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+<script id="__og-game-config">window.__OG_GAME={"id":"qxpp0yf4ac","version":12,"releaseId":"release_qxpp0yf4ac_v12"}</script>
+<script src="/__og/og-sdk.js"></script>
+<link rel="manifest" href="./manifest.webmanifest">
+<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(function(){})})}</script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#092a3a" />
+    <title>潮汐王国防线</title>
+    <script type="module" crossorigin src="./assets/game-7hngnOW3.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="modulepreload" crossorigin href="./assets/bossMechanics-21H4M662.js">
+    <link rel="stylesheet" crossorigin href="./assets/bossMechanics-B2GZ6tEX.css">
+    <link rel="stylesheet" crossorigin href="./assets/game-xqEy5GJa.css">
+  </head>
+  <body>
+    <main id="app">
+      <section id="start-screen" class="screen start-screen" hidden>
+        <div class="menu-shell">
+          <header class="menu-header">
+            <div class="brand-lockup">
+              <img class="game-emblem" src="./assets/game-emblem-DncFepRS.webp" alt="" />
+              <div>
+              <p class="eyebrow">SEA KINGDOM DEFENSE</p>
+              <img class="game-title-logo" src="./assets/game-title-logo-CzliWCSu.webp" alt="潮汐王国防线" />
+              <h1>潮汐王国防线</h1>
+              <p class="menu-copy">选择战场，守住通往王城的最后防线。</p>
+              </div>
+            </div>
+          </header>
+          <div class="level-heading">
+            <h2>选择关卡</h2>
+            <span id="level-progress">1 / 6</span>
+          </div>
+          <div id="level-grid" class="level-grid" aria-label="关卡列表"></div>
+        </div>
+      </section>
+
+      <section id="game-screen" class="screen game-screen" hidden>
+        <div id="game"></div>
+        <button id="back-button" class="back-button" type="button" aria-label="返回选关界面" title="返回选关界面">←</button>
+        <button id="auto-demo-button" class="auto-demo-button" type="button" aria-pressed="false" title="临时测试功能：运行自动数值代理">自动演示</button>
+      </section>
+
+      <section id="story-overlay" class="story-overlay" aria-labelledby="story-title" hidden>
+        <div class="story-stage">
+          <img id="story-art" class="story-art" alt="" />
+          <img class="story-frame" src="./assets/story-frame-143-UBJg.png" alt="" />
+          <div class="story-heading">
+            <p id="story-chapter" class="story-chapter"></p>
+            <h2 id="story-title"></h2>
+          </div>
+          <div id="story-narrative" class="story-narrative" aria-live="polite"></div>
+          <div class="story-copy">
+            <p id="story-background"></p>
+            <p class="story-objective"><span id="story-objective"></span></p>
+          </div>
+          <button id="story-skip" class="story-skip" type="button">跳过</button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

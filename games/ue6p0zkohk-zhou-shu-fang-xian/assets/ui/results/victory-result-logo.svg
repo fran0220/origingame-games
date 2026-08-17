@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">结界防卫胜利徽章</title>
+  <desc id="desc">六边结界盾、阵眼与高专门形组成的胜利标记</desc>
+  <defs>
+    <linearGradient id="shield" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#123f36"/>
+      <stop offset="0.55" stop-color="#08221d"/>
+      <stop offset="1" stop-color="#06110f"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e5fff8"/>
+      <stop offset="0.5" stop-color="#71e8cf"/>
+      <stop offset="1" stop-color="#2ea995"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff0ae"/>
+      <stop offset="0.5" stop-color="#e6c568"/>
+      <stop offset="1" stop-color="#98702e"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <path d="M128 10L218 55V135C218 188 181 225 128 246C75 225 38 188 38 135V55Z" fill="#020806" opacity=".72"/>
+  <path d="M128 18L209 59V134C209 180 177 214 128 236C79 214 47 180 47 134V59Z" fill="url(#shield)" stroke="url(#gold)" stroke-width="5"/>
+  <path d="M128 34L192 67V130C192 168 168 196 128 216C88 196 64 168 64 130V67Z" fill="none" stroke="url(#cyan)" stroke-width="3" opacity=".9"/>
+  <g fill="#e8ca70">
+    <rect x="123" y="22" width="10" height="10" transform="rotate(45 128 27)"/>
+    <rect x="199" y="126" width="10" height="10" transform="rotate(45 204 131)"/>
+    <rect x="123" y="224" width="10" height="10" transform="rotate(45 128 229)"/>
+    <rect x="47" y="126" width="10" height="10" transform="rotate(45 52 131)"/>
+  </g>
+  <g fill="none" stroke="#7cebd3" stroke-width="3" opacity=".78">
+    <path d="M128 57V79M177 83L158 94M177 151L158 140M128 196V174M79 151L98 140M79 83L98 94"/>
+  </g>
+  <path d="M85 91H171L159 78H97Z" fill="url(#gold)"/>
+  <path d="M96 93V116M160 93V116" stroke="#e8ca70" stroke-width="7"/>
+  <path d="M77 134Q102 103 128 134Q154 165 179 134Q154 103 128 134Q102 165 77 134Z" fill="#04100d" stroke="url(#cyan)" stroke-width="6" filter="url(#glow)"/>
+  <circle cx="128" cy="134" r="13" fill="url(#gold)" stroke="#06110f" stroke-width="5"/>
+  <path d="M100 184H156" stroke="#e8ca70" stroke-width="5"/>
+  <path d="M111 195H145" stroke="#70e5cd" stroke-width="3"/>
+</svg>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>海上王城 · 全量素材工作台</title>
+    <script type="module" crossorigin src="./assets/imageStudio-rZaD2sOP.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="stylesheet" crossorigin href="./assets/imageStudio-Ce_HFBV_.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">SEA KINGDOM / ASSET PIPELINE</p>
+          <h1>全量素材工作台</h1>
+          <p class="lede">统一生成、试听和挑选游戏中的图像、地图音乐、战斗音效与环境声。</p>
+        </div>
+        <div class="topbar-actions" data-image-actions>
+          <span id="queue-count" class="queue-count">已选择 0 项</span>
+          <button id="generate-selected" class="primary-button" type="button">生成所选</button>
+        </div>
+        <div class="topbar-actions" data-audio-actions hidden>
+          <span id="audio-queue-count" class="queue-count">已选择 0 项</span>
+          <button id="audio-generate-selected" class="primary-button" type="button">生成所选</button>
+        </div>
+      </header>
+
+      <nav class="studio-tabs" aria-label="素材类型">
+        <button class="studio-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="image-panel" data-tab="image">图像素材</button>
+        <button class="studio-tab" type="button" role="tab" aria-selected="false" aria-controls="audio-panel" data-tab="audio">音乐与音效</button>
+      </nav>
+
+      <section id="image-panel" class="studio-panel" role="tabpanel" data-panel="image">
+        <section class="reference-strip">
+          <img src="./assets/sea-kingdom-reference-B1zKMrk_.webp" alt="海上王城视觉参考" />
+          <div>
+            <strong>统一视觉参考</strong>
+            <span>透明物件会自动切图；背景与整幅界面保留完整画面。动画项目仅生成关键帧参考。</span>
+          </div>
+        </section>
+
+        <section class="control-bar" aria-label="图像素材筛选">
+          <div id="summary" class="summary"></div>
+          <div class="filters">
+            <label>优先级
+              <select id="priority-filter">
+                <option value="all">全部</option><option value="P0">P0</option><option value="P1">P1</option><option value="P2">P2</option><option value="P3">P3</option>
+              </select>
+            </label>
+            <label>状态
+              <select id="status-filter">
+                <option value="all">全部</option><option value="ready">已有素材</option><option value="missing">待生成</option><option value="experimental">动画实验项</option>
+              </select>
+            </label>
+            <button id="select-visible" class="secondary-button" type="button">选择当前缺失项</button>
+          </div>
+        </section>
+
+        <p id="generation-status" class="generation-status">正在读取本地图像素材清单…</p>
+        <div id="category-sections" class="category-sections" aria-live="polite"></div>
+      </section>
+
+      <section id="audio-panel" class="studio-panel" role="tabpanel" data-panel="audio" hidden>
+        <section class="audio-reference-strip">
+          <div class="audio-reference-icon" aria-hidden="true">♪</div>
+          <div>
+            <strong>声音制作规则</strong>
+            <span>六张地图各有独立音乐。生成结果先作为候选版本保存；试听后点击“采用此版”，才会发布到游戏正式音频目录。</span>
+          </div>
+        </section>
+
+        <section class="control-bar" aria-label="音频素材筛选">
+          <div id="audio-summary" class="summary"></div>
+          <div class="filters">
+            <label>类型
+              <select id="audio-kind-filter">
+                <option value="all">全部</option><option value="music">音乐</option><option value="sfx">音效与环境声</option><option value="voice">登场语音</option>
+              </select>
+            </label>
+            <label>优先级
+              <select id="audio-priority-filter">
+                <option value="all">全部</option><option value="P0">P0</option><option value="P1">P1</option><option value="P2">P2</option>
+              </select>
+            </label>
+            <label>状态
+              <select id="audio-status-filter">
+                <option value="all">全部</option><option value="selected">已采用</option><option value="generated">待挑选</option><option value="missing">待生成</option>
+              </select>
+            </label>
+            <button id="audio-select-visible" class="secondary-button" type="button">选择当前缺失项</button>
+          </div>
+        </section>
+
+        <p id="audio-generation-status" class="generation-status">正在读取本地声音需求清单…</p>
+        <div id="audio-category-sections" class="category-sections" aria-live="polite"></div>
+      </section>
+    </main>
+  </body>
+</html>

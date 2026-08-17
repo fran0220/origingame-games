@@ -1,0 +1,22 @@
+{
+  "name": "魔法塔防",
+  "short_name": "魔法塔防",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "./og-cover.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "./og-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

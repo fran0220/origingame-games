@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 2,
+  "runtimeProfile": "premium-adaptive-webgl2",
+  "engine": {
+    "name": "og-engine",
+    "version": "0.9.0",
+    "import": "./og-engine/index.js",
+    "typesFile": "./og-engine/og-engine.d.ts",
+    "apiReference": "./og-engine/API.md",
+    "sha256": {
+      "index.js": "52af8dbfa98976c847a5c56dd318ed5bfed621ad61c6f805aaff103384586577",
+      "rng.js": "71c6339fc63b03e91775f99d41503f99a0fe59d5daa00412523e4d0d0d8c1e1d",
+      "loop.js": "506d1a9f1679fa9dfab7da1b1ed5476e2c0be008bb785f94e50bb303311d8a21",
+      "input.js": "bcf68049d524b721090b5b91ab5ed7d434841a3619cde70e5ed595f6288c09bc",
+      "assets.js": "93d2fe0c5d73eb060542a5b3a19262e05635d6f4c557200e96ffcd81168c751b",
+      "audio.js": "216a10c16a5bfef3d113c75de3148b373c7396fdc245bb176ffca166ef4b2a6d",
+      "ui.js": "c5b4488cc858f1428e8854afb2304633c4e05e22ea07def45c393ee6ed267f7b",
+      "diagnostics.js": "504d196ce94e13fb9d1382c6a4f84c5e10b1f735484aca82a9407029381825e7",
+      "probe.js": "afbe58585740edff720623fd9a6c12e8065d3b5872885dfba96ce1f714cea6bf",
+      "debug.js": "3f79cd38b85ddac2986b34f03395035b810c6bbf6364d81d0a39891042ced4d0",
+      "camera-rig.js": "803a202795370c36d9beb94523be54340a079bcfec3c8b2a9b701ed80d0377e2",
+      "fx.js": "22c8ea5c37cb162b41d7e77d7c0ad77d17c781c7bc9f50be9f704d3a3b89eaf9",
+      "levels.js": "d7da5bb6de61cf6b2a854702f0d153c890c50ad04f04cf0ac5f297f9ec0b6224",
+      "render-pipeline.js": "6ff3a1667edbbaca0a2f5d236c2df57f3694a645977ea2247344fe897ae2b369",
+      "vfx.js": "203a687cd5b6358bfea105dcfe213af24402f659575502150fffa4b9af14621e",
+      "locomotion.js": "2f7eb364d20fa89ea6491b71baac65204b92ce79431cf2a0e9ce505088ab3b66",
+      "grounded-character.js": "ca58b6541b26926214f039d461a3c1d8192f4cc2221ae5057e2da8579e08d85e",
+      "terrain.js": "798127f2216f065660bab9256acb8180049c2b5f42d59cb86d0230bf42a0547c",
+      "physics.js": "aa9262cb9c200a7da61d5e827231bc9e40edfd026172f0f4cb1fcb3402b07e8b",
+      "actor-binding.js": "91e46949a752ad46da80689dd1f9b6e0f113ab6b5433e02b49c323590ee04360",
+      "save-store.js": "de1418e6e8be983eb0642b4c3e5c090865a612276f5f89753916f5f8b33d0cce",
+      "net-session.js": "9ecda2cbc03e45a8b42ffdd93227b3d7e9afdcc87235938d8898271a19560039"
+    },
+    "fontsSha256": {
+      "og-display.woff2": "62553d159189834af73c9a6264704be5b2bee9a08da66a14768d8e5c6ffd2cdb",
+      "og-tabular.woff2": "cb182feeed4d798ff6961d3c79f7026279448fca0676438aaecb21f3fc39553a"
+    }
+  },
+  "three": {
+    "version": "0.184.0",
+    "revision": "184",
+    "import": "./three.module.js",
+    "coreImport": "./three.core.js",
+    "webgpuImport": "./three.webgpu.js",
+    "tslImport": "./three.tsl.js",
+    "addonsImportPrefix": "./three/addons/"
+  },
+  "rapier": {
+    "version": "0.14.0",
+    "format": "esm",
+    "sha256": "b9f252644ebf751f84c598c6c146e62d61b35cca43cedb494de94e0368437ea2",
+    "import": "./rapier.es.js",
+    "optional": true
+  },
+  "capabilities": {
+    "three-core": {
+      "available": true,
+      "defaultEnabled": true
+    },
+    "gltf": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "controls-orbit": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "lighting": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "premium-render-pipeline": {
+      "available": true,
+      "defaultEnabled": true
+    },
+    "adaptive-render-quality": {
+      "available": true,
+      "defaultEnabled": true
+    },
+    "postprocessing-lite": {
+      "available": true,
+      "defaultEnabled": true
+    },
+    "custom-shader-passes": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "pooled-vfx": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "signature-timeline": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "production-audio-director": {
+      "available": true,
+      "defaultEnabled": true
+    },
+    "complete-presentation-flow": {
+      "available": true,
+      "defaultEnabled": true
+    },
+    "locomotion-pack": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "configured-terrain": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "semantic-pbr-materials": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "actor-binding": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "save-store": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "multiplayer-net-session": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "compressed-assets-ktx2-meshopt": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "physics-rapier": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "diagnostics": {
+      "available": true,
+      "defaultEnabled": true
+    },
+    "game-ui": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "webgpu-tsl-render-pipeline": {
+      "available": false,
+      "defaultEnabled": false,
+      "reason": "not-yet-integrated-with-engine-owned-final-frame"
+    }
+  },
+  "rendererProfiles": {
+    "premium-adaptive-webgl2": {
+      "default": true,
+      "renderer": "WebGLRenderer",
+      "pipeline": "og-engine/EffectComposer",
+      "qualityTiers": [
+        "premium",
+        "balanced",
+        "mobile"
+      ],
+      "ownsFinalFrame": true,
+      "diagnostics": 4
+    }
+  }
+}

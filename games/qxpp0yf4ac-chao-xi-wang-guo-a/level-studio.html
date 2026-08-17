@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>关卡生成工作台</title>
+    <script type="module" crossorigin src="./assets/levelStudio-Du8PS-XI.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="stylesheet" crossorigin href="./assets/levelStudio-ZMlIfPlT.css">
+  </head>
+  <body>
+    <main class="studio-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">LEVEL PIPELINE / ORIGINGAME</p>
+          <h1>关卡生成工作台</h1>
+        </div>
+        <div class="topbar-actions">
+          <a class="quiet-button" href="./index.html">打开游戏</a>
+          <button id="open-json" class="primary-button" type="button">编辑全部 JSON</button>
+        </div>
+      </header>
+
+      <nav class="pipeline" aria-label="关卡产出流程">
+        <span><b>1</b> 原始关卡</span>
+        <i></i>
+        <span><b>2</b> 蒙版标注</span>
+        <i></i>
+        <span><b>3</b> 路径解析</span>
+        <i></i>
+        <span><b>4</b> 游戏资产</span>
+      </nav>
+
+      <section class="workspace-heading">
+        <div>
+          <p class="section-kicker">THEME QUEUE</p>
+          <h2>关卡设计</h2>
+        </div>
+        <p id="global-status" class="global-status" role="status">正在读取关卡配置…</p>
+      </section>
+      <section id="level-grid" class="level-grid" aria-live="polite"></section>
+    </main>
+
+    <dialog id="json-dialog" class="json-dialog">
+      <form method="dialog" class="json-toolbar">
+        <div><p class="section-kicker">LEVEL SPECIFICATION</p><h2>全部关卡 JSON</h2></div>
+        <button class="icon-button" value="cancel" aria-label="关闭 JSON 编辑器" title="关闭">×</button>
+      </form>
+      <textarea id="json-editor" spellcheck="false" aria-label="关卡 JSON"></textarea>
+      <footer>
+        <span id="json-status">修改会覆盖当前工作台配置</span>
+        <button id="apply-json" class="primary-button" type="button">应用并保存</button>
+      </footer>
+    </dialog>
+
+  </body>
+</html>

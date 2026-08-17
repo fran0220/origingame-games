@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<script id="__og-game-config">window.__OG_GAME={"id":"i18gfsti7v","version":1,"releaseId":"release_i18gfsti7v_v1"}</script>
+<script src="/__og/og-sdk.js"></script>
+<link rel="manifest" href="./manifest.webmanifest">
+<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(function(){})})}</script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#15130f">
+  <title>战国烽烟 · 函谷关</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="seal">战</span>
+        <div>
+          <h1>战国烽烟</h1>
+          <p>函谷关 · 公元前 318 年</p>
+        </div>
+      </div>
+      <div class="resources" aria-label="战局资源">
+        <div><span>军粮</span><strong id="gold">180</strong></div>
+        <div><span>城防</span><strong id="lives">10</strong></div>
+        <div><span>波次</span><strong><i id="wave">0</i>/7</strong></div>
+        <div><span>威望</span><strong id="score">0</strong></div>
+      </div>
+    </header>
+
+    <main class="game-layout">
+      <section class="battlefield" aria-label="函谷关战场">
+        <canvas id="gameCanvas" width="960" height="600"></canvas>
+        <div class="canvas-actions">
+          <button id="waveButton" class="primary">击鼓迎敌</button>
+          <button id="speedButton" aria-label="切换游戏速度">1×</button>
+          <button id="pauseButton" aria-label="暂停游戏">暂停</button>
+        </div>
+        <div id="toast" class="toast" role="status"></div>
+      </section>
+
+      <aside class="commandery">
+        <section>
+          <p class="eyebrow">调兵遣将</p>
+          <h2>军械营</h2>
+          <div id="towerCards" class="tower-cards"></div>
+          <p class="hint">先选择单位，再点击战场上的圆形营垒。</p>
+        </section>
+
+        <section id="inspector" class="inspector">
+          <p class="eyebrow">军情简牍</p>
+          <h2 id="inspectName">函谷关舆图</h2>
+          <p id="inspectText">黄土为道，营垒为可布防之处。敌军将由东方进入，向西冲击关门。</p>
+          <div id="inspectStats" class="stats"></div>
+          <div id="inspectActions" class="inspect-actions"></div>
+        </section>
+
+        <section class="lore">
+          <p class="eyebrow">战国拾遗</p>
+          <blockquote id="loreText">函谷关地势险要，是战国时期秦国的东方门户。</blockquote>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <div id="intro" class="modal open" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+    <div class="modal-card">
+      <span class="chapter">第一章</span>
+      <h2 id="introTitle">五国叩关</h2>
+      <p>公元前 318 年，合纵联军兵临函谷关。你受命统筹军械、谋士与烽燧，在七轮攻势中守住秦国东门。</p>
+      <div class="rules">
+        <span><b>壹</b> 选择军械</span>
+        <span><b>贰</b> 点击营垒布防</span>
+        <span><b>叁</b> 击鼓迎敌</span>
+      </div>
+      <button id="startButton" class="primary large">受命守关</button>
+    </div>
+  </div>
+
+  <div id="endModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="endTitle">
+    <div class="modal-card end-card">
+      <span id="endSeal" class="end-seal">守</span>
+      <p class="eyebrow">战报</p>
+      <h2 id="endTitle">函谷关得守</h2>
+      <p id="endText"></p>
+      <div class="final-score"><span>最终威望</span><strong id="finalScore">0</strong></div>
+      <button id="restartButton" class="primary large">再守一局</button>
+    </div>
+  </div>
+
+  <script src="./game.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+{
+  "generatedBy": "origin-workbench",
+  "targetDir": "assets/origingame",
+  "files": [
+    {
+      "id": "file_7318e8428df98c99a1",
+      "path": "assets/origingame/polyhaven/moonless_golf/moonless_golf_2k.hdr",
+      "groupId": "grp_0137eb31f6895454d7"
+    },
+    {
+      "id": "file_2bc1e913cdd1f6fc0d",
+      "path": "assets/origingame/kaykit/KayKit_Character_Animations_1.1/Animations/gltf/Rig_Medium/Rig_Medium_MovementAdvanced.glb",
+      "groupId": "grp_05d3ba450ba5d3665c"
+    },
+    {
+      "id": "file_92bf1456d2ff398ecc",
+      "path": "assets/origingame/kenney/3D assets/Fantasy Town Kit/Models/GLB format/stairs-wide-stone.glb",
+      "groupId": "grp_084eec0ddbad553b6d"
+    },
+    {
+      "id": "file_c850cf6a69483124d3",
+      "path": "assets/origingame/kenney/3D assets/Fantasy Town Kit/Models/GLB format/Textures/colormap.png",
+      "groupId": "grp_084eec0ddbad553b6d"
+    },
+    {
+      "id": "file_efb29dc9b0ee31e1d9",
+      "path": "assets/origingame/polyhaven/castle_wall_varriation/castle_wall_varriation_diff_2k.jpg",
+      "groupId": "grp_235217a1aeebf76c36"
+    },
+    {
+      "id": "file_6f0a44e9938c0027d3",
+      "path": "assets/origingame/kaykit/KayKit_Adventurers_2.0_FREE/Characters/gltf/Rogue_Hooded.glb",
+      "groupId": "grp_2b1848fe83535a56a4"
+    },
+    {
+      "id": "file_4ddbdba9a376ecfdbf",
+      "path": "assets/origingame/kenney/3D assets/Nature Kit/Models/GLTF format/platform_stone.glb",
+      "groupId": "grp_88ff750530897d6035"
+    },
+    {
+      "id": "file_d87fd98f29b3be5820",
+      "path": "assets/origingame/kenney/3D assets/Nature Kit/Models/GLTF format/cliff_steps_stone.glb",
+      "groupId": "grp_cfb1a08dd485c89173"
+    }
+  ],
+  "attribution": [
+    {
+      "source": "Moonless Golf — Poly Haven Curated",
+      "license": "CC0",
+      "licenseUrl": "https://polyhaven.com"
+    },
+    {
+      "source": "Rig Medium Movement Advanced — KayKit Game Assets",
+      "license": "CC0",
+      "licenseUrl": "https://kaylousberg.com"
+    },
+    {
+      "source": "Stairs Wide Stone — Kenney Game Assets All-in-1",
+      "license": "CC0",
+      "licenseUrl": "https://kenney.nl"
+    },
+    {
+      "source": "Castle Wall Variation — Poly Haven Curated",
+      "license": "CC0",
+      "licenseUrl": "https://polyhaven.com"
+    },
+    {
+      "source": "Rogue Hooded — KayKit Game Assets",
+      "license": "CC0",
+      "licenseUrl": "https://kaylousberg.com"
+    },
+    {
+      "source": "Platform Stone — Kenney Game Assets All-in-1",
+      "license": "CC0",
+      "licenseUrl": "https://kenney.nl"
+    },
+    {
+      "source": "Cliff Steps Stone — Kenney Game Assets All-in-1",
+      "license": "CC0",
+      "licenseUrl": "https://kenney.nl"
+    }
+  ]
+}

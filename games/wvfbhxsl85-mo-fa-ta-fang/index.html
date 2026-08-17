@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+<script id="__og-game-config">window.__OG_GAME={"id":"wvfbhxsl85","version":1}</script>
+<script src="/__og/og-sdk.js"></script>
+<link rel="manifest" href="./manifest.webmanifest">
+<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(function(){})})}</script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>奇幻迷宫塔防</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three.module.js",
+          "three/webgpu": "./vendor/three.webgpu.js",
+          "three/tsl": "./vendor/three.tsl.js",
+          "three/addons/": "./vendor/three-addons/",
+          "@dimforge/rapier3d-compat": "./vendor/rapier.es.js"
+        }
+      }
+    </script>
+    <style>
+      :root {
+        --panel: rgba(12, 18, 32, 0.82);
+        --panel-deep: rgba(8, 12, 24, 0.92);
+        --panel-border: rgba(212, 175, 98, 0.5);
+        --gold: #e8c872;
+        --gold-dim: #b8924a;
+        --text: #f3efe4;
+        --muted: #9aa6bc;
+        --danger: #e86a6a;
+        --ok: #6dcf8a;
+        --accent: #7eb6ff;
+        --mage: #b48cff;
+        --frost: #7ec8ff;
+        --frame: url("assets/generated/ui-panel-frame.png");
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        background: #0b1220;
+        color: var(--text);
+        font-family: "Palatino Linotype", "Book Antiqua", "Songti SC", "PingFang SC", "Microsoft YaHei", serif;
+        user-select: none;
+      }
+
+      canvas#game-canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+      }
+
+      #ui-root {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 10;
+      }
+
+      /* —— Fantasy panel chrome —— */
+      #ui-root .panel {
+        pointer-events: auto;
+        /* absolute so id-positioned chips are not forced into normal-flow full width */
+        position: absolute;
+        background:
+          linear-gradient(180deg, rgba(28, 36, 58, 0.55), rgba(10, 14, 26, 0.88)),
+          var(--panel);
+        border: 1px solid var(--panel-border);
+        border-radius: 14px;
+        backdrop-filter: blur(10px);
+        box-shadow:
+          0 10px 32px rgba(0, 0, 0, 0.45),
+          inset 0 1px 0 rgba(255, 230, 170, 0.12),
+          inset 0 0 0 1px rgba(80, 60, 30, 0.35);
+      }
+
+      #ui-root .panel::before {
+        content: "";
+        pointer-events: none;
+        position: absolute;
+        inset: -6px;
+        border-radius: 18px;
+        background: var(--frame) center / 100% 100% no-repeat;
+        opacity: 0.55;
+        mix-blend-mode: screen;
+        z-index: 0;
+      }
+
+      #ui-root .panel > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Top resource bar — primary gameplay hierarchy */
+      #top-bar {
+        position: absolute;
+        top: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 6px;
+        align-items: stretch;
+        padding: 8px 10px;
+        white-space: nowrap;
+      }
+
+      #top-bar .stat {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 108px;
+        padding: 6px 12px 6px 8px;
+        border-radius: 12px;
+        background: linear-gradient(180deg, rgba(40, 48, 72, 0.75), rgba(16, 20, 34, 0.9));
+        border: 1px solid rgba(212, 175, 98, 0.28);
+        box-shadow: inset 0 1px 0 rgba(255, 240, 200, 0.08);
+      }
+
+      #top-bar .stat .label {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.15;
+        font-size: 11px;
+        color: var(--muted);
+        letter-spacing: 0.04em;
+      }
+
+      #top-bar .stat strong {
+        color: var(--gold);
+        font-size: 18px;
+        font-variant-numeric: tabular-nums;
+        font-weight: 700;
+        text-shadow: 0 0 12px rgba(232, 200, 114, 0.35);
+      }
+
+      #top-bar .stat.hp strong {
+        color: #ff8f8f;
+        text-shadow: 0 0 12px rgba(232, 106, 106, 0.35);
+      }
+
+      #top-bar .stat.wave strong {
+        color: #a8d4ff;
+        text-shadow: 0 0 12px rgba(126, 182, 255, 0.3);
+      }
+
+      #top-bar .ico {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        flex-shrink: 0;
+      }
+
+      /* HP bar under top bar */
+      #hp-track {
+        position: absolute;
+        top: 72px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(42vw, 280px);
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(20, 12, 18, 0.75);
+        border: 1px solid rgba(232, 106, 106, 0.35);
+        overflow: hidden;
+        pointer-events: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      }
+
+      #hp-fill {
+        height: 100%;
+        width: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #8b2030, #e86a6a 55%, #ffb0a0);
+        box-shadow: 0 0 10px rgba(232, 106, 106, 0.45);
+        transition: width 0.25s ease;
+      }
+
+      #phase-pill {
+        position: absolute;
+        top: 86px;
+        left: 50%;
+        transform: translateX(-50%);
+        pointer-events: none;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--gold-dim);
+        padding: 3px 12px;
+        border-radius: 999px;
+        background: rgba(12, 16, 28, 0.65);
+        border: 1px solid rgba(212, 175, 98, 0.25);
+      }
+
+      #phase-pill.combat {
+        color: #ffb08a;
+        border-color: rgba(255, 150, 100, 0.4);
+      }
+
+      #phase-pill.won {
+        color: var(--ok);
+      }
+
+      #phase-pill.lost {
+        color: var(--danger);
+      }
+
+      /* Controls — secondary, corner */
+      #controls-chip {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        padding: 12px 14px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: var(--muted);
+        max-width: 210px;
+      }
+
+      #controls-chip .chip-title {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0 0 6px;
+        color: var(--gold);
+        font-size: 13px;
+        letter-spacing: 0.08em;
+      }
+
+      #controls-chip kbd {
+        display: inline-block;
+        min-width: 1.4em;
+        padding: 0 4px;
+        margin-right: 2px;
+        border-radius: 4px;
+        border: 1px solid rgba(212, 175, 98, 0.35);
+        background: rgba(40, 48, 70, 0.9);
+        color: var(--text);
+        font-size: 10px;
+        font-family: inherit;
+        text-align: center;
+      }
+
+      /* Tower inspect panel */
+      #tower-panel {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        padding: 14px 16px;
+        min-width: 188px;
+        display: none;
+        font-size: 13px;
+      }
+
+      #tower-panel.visible {
+        display: block;
+      }
+
+      #tower-panel .tp-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      #tower-panel .tp-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        object-fit: cover;
+        border: 1px solid rgba(212, 175, 98, 0.4);
+        box-shadow: 0 0 12px rgba(232, 200, 114, 0.2);
+      }
+
+      #tower-panel h3 {
+        margin: 0;
+        font-size: 15px;
+        color: var(--gold);
+        font-weight: 700;
+      }
+
+      #tower-panel .tp-sub {
+        margin: 2px 0 0;
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      #tower-panel .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        color: var(--muted);
+        margin-bottom: 5px;
+        font-size: 12px;
+      }
+
+      #tower-panel .row b {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      #tower-panel .actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      #tower-panel button {
+        flex: 1;
+        border: 1px solid rgba(212, 175, 98, 0.4);
+        background: linear-gradient(180deg, rgba(70, 58, 36, 0.95), rgba(36, 30, 20, 0.95));
+        color: var(--gold);
+        border-radius: 10px;
+        padding: 9px 8px;
+        cursor: pointer;
+        font-size: 12px;
+        font-family: inherit;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+      }
+
+      #tower-panel button:hover:not(:disabled) {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 1px rgba(232, 200, 114, 0.25);
+      }
+
+      #tower-panel button:disabled {
+        opacity: 0.45;
+        cursor: default;
+      }
+
+      #tower-panel button.danger {
+        background: linear-gradient(180deg, rgba(70, 32, 36, 0.95), rgba(36, 16, 20, 0.95));
+        border-color: rgba(232, 106, 106, 0.45);
+        color: #ffb0b0;
+      }
+
+      /* Hint */
+      #hint-bar {
+        position: absolute;
+        left: 50%;
+        bottom: 108px;
+        transform: translateX(-50%);
+        padding: 9px 18px;
+        font-size: 13px;
+        color: var(--muted);
+        max-width: min(92vw, 560px);
+        text-align: center;
+        border-radius: 999px;
+      }
+
+      #hint-bar.warning {
+        color: #ffd18a;
+        border-color: rgba(255, 200, 120, 0.4);
+      }
+
+      #hint-bar.error {
+        color: #ff9b9b;
+        border-color: rgba(255, 120, 120, 0.4);
+      }
+
+      /* Build bar — primary action strip */
+      #build-bar {
+        position: absolute;
+        left: 50%;
+        bottom: 16px;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        align-items: stretch;
+        padding: 12px 14px;
+      }
+
+      /* Compact gameplay HUD: chips wrap content, not full viewport width */
+      #ui-root #top-bar,
+      #ui-root #build-bar,
+      #ui-root #hint-bar {
+        position: absolute;
+        width: fit-content;
+        max-width: min(96vw, 720px);
+      }
+
+      /* Ornate frame texture only on card-like panels (controls / tower / overlay) */
+      #ui-root #top-bar::before,
+      #ui-root #build-bar::before,
+      #ui-root #hint-bar::before {
+        content: none;
+      }
+
+      /* Stats + hint are display-only; build strip keeps buttons clickable */
+      #ui-root #top-bar,
+      #ui-root #hint-bar {
+        pointer-events: none;
+      }
+
+      #ui-root #build-bar {
+        pointer-events: auto;
+      }
+
+      .tower-btn,
+      .tool-btn {
+        border: 1px solid rgba(212, 175, 98, 0.35);
+        background: linear-gradient(180deg, rgba(36, 44, 66, 0.98), rgba(18, 22, 36, 0.98));
+        color: var(--text);
+        border-radius: 12px;
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 12px;
+        font-family: inherit;
+        min-width: 78px;
+        transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s, opacity 0.15s;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+      }
+
+      .tower-btn {
+        flex-direction: row;
+        gap: 8px;
+        min-width: 108px;
+        text-align: left;
+        padding: 8px 12px 8px 8px;
+      }
+
+      .tower-btn .tb-text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1.2;
+      }
+
+      .tower-btn .tb-name {
+        font-weight: 600;
+        letter-spacing: 0.04em;
+      }
+
+      .tower-btn:hover,
+      .tool-btn:hover {
+        border-color: var(--gold);
+        transform: translateY(-1px);
+      }
+
+      .tower-btn.active {
+        border-color: var(--accent);
+        box-shadow:
+          0 0 0 2px rgba(126, 182, 255, 0.35),
+          0 8px 18px rgba(40, 80, 140, 0.35);
+      }
+
+      .tower-btn .cost {
+        color: var(--gold);
+        font-size: 12px;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .tower-btn.unaffordable {
+        opacity: 0.5;
+      }
+
+      .tower-btn .ico-tower {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        object-fit: cover;
+        box-shadow:
+          0 0 0 1px rgba(212, 175, 98, 0.4),
+          0 4px 10px rgba(0, 0, 0, 0.35);
+        flex-shrink: 0;
+      }
+
+      .tool-btn.primary {
+        background: linear-gradient(180deg, #5a8a48, #2f5530);
+        border-color: rgba(160, 220, 130, 0.55);
+        color: #f0ffe8;
+        font-weight: 700;
+        min-width: 128px;
+        letter-spacing: 0.06em;
+        box-shadow: 0 6px 16px rgba(40, 90, 40, 0.35);
+      }
+
+      .tool-btn.primary:disabled {
+        opacity: 0.48;
+        cursor: default;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .tool-btn.ghost {
+        color: var(--muted);
+      }
+
+      /* End-game overlay */
+      #game-overlay {
+        position: absolute;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background:
+          radial-gradient(ellipse at center, rgba(30, 40, 70, 0.35), rgba(4, 8, 16, 0.78));
+        pointer-events: auto;
+        z-index: 20;
+      }
+
+      #game-overlay.visible {
+        display: flex;
+      }
+
+      #game-overlay .card {
+        position: relative;
+        background:
+          linear-gradient(180deg, rgba(32, 40, 64, 0.95), rgba(12, 16, 28, 0.96));
+        border: 1px solid var(--panel-border);
+        border-radius: 20px;
+        padding: 28px 32px 24px;
+        text-align: center;
+        max-width: min(92vw, 400px);
+        width: 100%;
+        box-shadow:
+          0 24px 60px rgba(0, 0, 0, 0.55),
+          inset 0 1px 0 rgba(255, 230, 170, 0.15);
+        overflow: hidden;
+      }
+
+      #game-overlay .card::before {
+        content: "";
+        position: absolute;
+        inset: -8px;
+        background: var(--frame) center / 100% 100% no-repeat;
+        opacity: 0.5;
+        mix-blend-mode: screen;
+        pointer-events: none;
+      }
+
+      #game-overlay .card > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      #overlay-badge {
+        width: 96px;
+        height: 96px;
+        object-fit: contain;
+        margin: 0 auto 10px;
+        display: block;
+        filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.45));
+      }
+
+      #game-overlay h2 {
+        margin: 0 0 6px;
+        color: var(--gold);
+        font-size: 26px;
+        letter-spacing: 0.08em;
+        text-shadow: 0 0 20px rgba(232, 200, 114, 0.35);
+      }
+
+      #game-overlay.lost h2 {
+        color: #ff9b9b;
+        text-shadow: 0 0 20px rgba(232, 106, 106, 0.35);
+      }
+
+      #game-overlay p {
+        margin: 0 0 14px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      #overlay-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin: 0 0 18px;
+        text-align: left;
+      }
+
+      #overlay-stats .os {
+        padding: 8px 10px;
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.28);
+        border: 1px solid rgba(212, 175, 98, 0.2);
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      #overlay-stats .os b {
+        display: block;
+        color: var(--text);
+        font-size: 16px;
+        margin-top: 2px;
+        font-variant-numeric: tabular-nums;
+      }
+
+      #btn-restart {
+        border: 1px solid rgba(212, 175, 98, 0.55);
+        background: linear-gradient(180deg, #6a5430, #3a2e18);
+        color: var(--gold);
+        border-radius: 12px;
+        padding: 12px 28px;
+        cursor: pointer;
+        font-size: 15px;
+        font-family: inherit;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+      }
+
+      #btn-restart:hover {
+        border-color: var(--gold);
+        filter: brightness(1.08);
+      }
+
+      /* Mobile tighten */
+      @media (max-width: 720px) {
+        #controls-chip {
+          display: none;
+        }
+        #top-bar {
+          gap: 4px;
+          padding: 6px;
+        }
+        #top-bar .stat {
+          min-width: 0;
+          padding: 4px 8px 4px 6px;
+        }
+        #top-bar .stat .label span:first-child {
+          display: none;
+        }
+        #top-bar .stat strong {
+          font-size: 15px;
+        }
+        #build-bar {
+          gap: 6px;
+          padding: 8px;
+          max-width: 98vw;
+          overflow-x: auto;
+        }
+        .tower-btn {
+          min-width: 92px;
+        }
+        #hint-bar {
+          bottom: 96px;
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="game-canvas"></canvas>
+    <div id="ui-root">
+      <div id="controls-chip" class="panel">
+        <div class="chip-title">⚔ 操作指引</div>
+        <div><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> 建塔类型</div>
+        <div>点击格子：建造</div>
+        <div><kbd>空格</kbd> 开始下一波</div>
+        <div><kbd>U</kbd> 升级 · <kbd>S</kbd> 出售</div>
+        <div><kbd>R</kbd> 结算后重开</div>
+      </div>
+
+      <div id="top-bar" class="panel">
+        <span class="stat gold">
+          <img class="ico" src="assets/generated/icon-gold.png" alt="" />
+          <span class="label"><span>金币</span><strong id="stat-gold">—</strong></span>
+        </span>
+        <span class="stat hp">
+          <img class="ico" src="assets/generated/icon-hp.png" alt="" />
+          <span class="label"><span>基地</span><strong id="stat-hp">—</strong></span>
+        </span>
+        <span class="stat wave">
+          <img class="ico" src="assets/generated/icon-wave.png" alt="" />
+          <span class="label"><span>波次</span><strong id="stat-wave">—</strong></span>
+        </span>
+      </div>
+      <div id="hp-track" aria-hidden="true"><div id="hp-fill"></div></div>
+      <div id="phase-pill">布防阶段</div>
+
+      <div id="tower-panel" class="panel">
+        <div class="tp-head">
+          <img class="tp-icon" id="tp-icon" src="assets/generated/icon-archer.png" alt="" />
+          <div>
+            <h3 id="tp-name">防御塔</h3>
+            <div class="tp-sub" id="tp-level">等级 1</div>
+          </div>
+        </div>
+        <div class="row"><span>战力</span><b id="tp-stats">—</b></div>
+        <div class="row"><span>射程</span><b id="tp-range">—</b></div>
+        <div class="row"><span>回收</span><b id="tp-sell">—</b></div>
+        <div class="actions">
+          <button type="button" id="btn-upgrade">升级</button>
+          <button type="button" id="btn-sell" class="danger">出售</button>
+        </div>
+      </div>
+
+      <div id="hint-bar" class="panel">布置迷宫后点击「开始波次」· 敌人沿最短路冲向基地</div>
+
+      <div id="build-bar" class="panel">
+        <button type="button" class="tower-btn" data-tower="archer" id="btn-archer">
+          <img class="ico-tower" src="assets/generated/icon-archer.png" alt="弓箭" />
+          <span class="tb-text"><span class="tb-name">弓箭</span><span class="cost" id="cost-archer">40</span></span>
+        </button>
+        <button type="button" class="tower-btn" data-tower="mage" id="btn-mage">
+          <img class="ico-tower" src="assets/generated/icon-mage.png" alt="法师" />
+          <span class="tb-text"><span class="tb-name">法师</span><span class="cost" id="cost-mage">55</span></span>
+        </button>
+        <button type="button" class="tower-btn" data-tower="frost" id="btn-frost">
+          <img class="ico-tower" src="assets/generated/icon-frost.png" alt="冰霜" />
+          <span class="tb-text"><span class="tb-name">冰霜</span><span class="cost" id="cost-frost">45</span></span>
+        </button>
+        <button type="button" class="tool-btn ghost" id="btn-cancel">取消</button>
+        <button type="button" class="tool-btn primary" id="btn-wave">开始第 1 波</button>
+      </div>
+
+      <div id="game-overlay">
+        <div class="card">
+          <img id="overlay-badge" src="assets/generated/ui-win-badge.png" alt="" />
+          <h2 id="overlay-title">结算</h2>
+          <p id="overlay-desc"></p>
+          <div id="overlay-stats">
+            <div class="os">肃清波次<b id="os-waves">0</b></div>
+            <div class="os">击杀敌人<b id="os-kills">0</b></div>
+            <div class="os">剩余金币<b id="os-gold">0</b></div>
+            <div class="os">基地 HP<b id="os-hp">0</b></div>
+          </div>
+          <button type="button" id="btn-restart">再来一局</button>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

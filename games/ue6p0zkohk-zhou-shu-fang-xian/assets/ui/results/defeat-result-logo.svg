@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">破界宿傩印</title>
+  <desc id="desc">破裂八边印、神龛门形与四目咒纹组成的失败标记</desc>
+  <defs>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffaaa5"/>
+      <stop offset="0.42" stop-color="#e9575d"/>
+      <stop offset="1" stop-color="#71141b"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <path d="M72 14H184L242 72V184L184 242H72L14 184V72Z" fill="#050304" opacity=".78"/>
+  <path d="M76 24H180L232 76V180L180 232H76L24 180V76Z" fill="#18080b" stroke="url(#red)" stroke-width="5"/>
+  <path d="M83 40H173L216 83V173L173 216H83L40 173V83Z" fill="none" stroke="#8f242b" stroke-width="3" stroke-dasharray="30 9"/>
+  <path d="M75 100H181L163 80H93Z" fill="#d64b52"/>
+  <path d="M91 104V160M165 104V160" stroke="#d64b52" stroke-width="10"/>
+  <path d="M82 160H174L162 174H94Z" fill="#6e171e" stroke="#e65a60" stroke-width="3"/>
+  <g fill="#ff8a88" filter="url(#glow)">
+    <path d="M70 78L91 70L82 88L63 94Z"/>
+    <path d="M186 78L165 70L174 88L193 94Z"/>
+    <path d="M66 178L88 168L80 188L59 194Z"/>
+    <path d="M190 178L168 168L176 188L197 194Z"/>
+  </g>
+  <g fill="#16070a" stroke="#ffb0aa" stroke-width="2">
+    <circle cx="78" cy="82" r="4"/><circle cx="178" cy="82" r="4"/>
+    <circle cx="75" cy="181" r="4"/><circle cx="181" cy="181" r="4"/>
+  </g>
+  <path d="M139 24L119 91L137 113L111 166L127 184L105 232" fill="none" stroke="#ffd0c9" stroke-width="7" filter="url(#glow)"/>
+  <path d="M142 25L124 92L142 114L116 166L132 185L112 232" fill="none" stroke="#5b0e15" stroke-width="3"/>
+</svg>

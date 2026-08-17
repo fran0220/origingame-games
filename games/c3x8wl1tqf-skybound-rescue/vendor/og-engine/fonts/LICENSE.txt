@@ -1,0 +1,4 @@
+og-display.woff2 — Inter (latin 600), SIL Open Font License 1.1
+  https://github.com/rsms/inter
+og-tabular.woff2 — JetBrains Mono (latin 500), SIL Open Font License 1.1
+  https://github.com/JetBrains/JetBrainsMono

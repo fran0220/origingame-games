@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#08121d" />
+    <title>王冠守卫战 · 关卡生成工作台</title>
+    <script type="module" crossorigin src="./assets/levelWorkbench-wA7l-feL.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="stylesheet" crossorigin href="./assets/levelWorkbench-BkwOyjp5.css">
+  </head>
+  <body>
+    <header class="workbench-header">
+      <div>
+        <p class="eyebrow">CROWN DEFENSE · LEVEL PIPELINE</p>
+        <h1>关卡生成工作台</h1>
+        <p>六关地图、蒙版、道路塔位与游戏发布统一管理——每个 Block 独立完成一条生产链。</p>
+      </div>
+      <nav>
+        <a href="./">返回游戏</a>
+        <a href="./?level=3">验证第 3 关</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="control-deck">
+        <div class="deck-copy">
+          <span class="live-dot"></span>
+          <div><strong id="api-state">正在连接工作台…</strong><small id="api-note">生成密钥只从开发服务器环境读取</small></div>
+        </div>
+        <div class="deck-actions">
+          <label>并发数
+            <select id="concurrency-select"><option>1</option><option>2</option><option selected>3</option><option>4</option></select>
+          </label>
+          <button id="import-map-library" class="quiet" type="button">同步六关地图文件夹</button>
+          <button id="batch-generate" type="button">并行生成已勾选蒙版</button>
+          <button id="refresh-workbench" class="quiet" type="button">刷新状态</button>
+        </div>
+      </section>
+
+      <section class="theme-section">
+        <div class="section-heading"><div><p class="eyebrow">SIX LEVEL MAP LIBRARY</p><h2>六关正式地图总览</h2></div><p>内容直接同步自“地图合集”：每关一张原图和一张对应蒙版，与下方六个关卡 Block 一一对应。</p></div>
+        <div id="theme-grid" class="theme-grid"></div>
+      </section>
+
+      <section class="levels-section">
+        <div class="section-heading"><div><p class="eyebrow">LEVEL BLOCKS</p><h2>六关独立生产 Block · 每行 3 个</h2></div><p>第 1、2 关只读展示；第 3–6 关从原图和颜色蒙版识别后接入游戏。</p></div>
+        <div id="level-grid" class="level-grid" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" hidden></div>
+  </body>
+</html>

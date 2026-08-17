@@ -1,0 +1,499 @@
+import { CONFIG as _0x258b6a } from "../config.js";
+import { cornerSList as _0x4851a0 } from "./path.js";
+export function limbFacets(_0x2d6622) {
+  const _0x491784 = _0x4851a0(_0x2d6622);
+  const _0x36c405 = _0x2d6622.path.chamferTiles;
+  const _0x538923 = [];
+  for (let _0x11b248 = 0; _0x11b248 <= _0x491784.length; _0x11b248++) {
+    _0x538923.push({
+      k: _0x11b248,
+      s0: _0x11b248 === 0 ? 0 : _0x491784[_0x11b248 - 1] + _0x36c405,
+      s1: _0x11b248 < _0x491784.length ? _0x491784[_0x11b248] : _0x2d6622.levelLength
+    });
+  }
+  return _0x538923;
+}
+export function limbJoints(_0x187f5a) {
+  const _0x250d81 = _0x187f5a.limb.joint;
+  return _0x4851a0(_0x187f5a).map((_0x51062a, _0x226b45) => ({
+    k: _0x226b45 + 1,
+    s: _0x51062a,
+    sMid: _0x51062a + _0x187f5a.path.chamferTiles / 2,
+    apron0: _0x51062a - _0x250d81.apronBack,
+    apron1: _0x51062a + _0x250d81.apronFwd
+  }));
+}
+export function limbFacetTone(_0x2e103b, _0x175869) {
+  const _0x1d6e43 = _0x175869.limb.tone;
+  return _0x1d6e43[_0x2e103b % _0x1d6e43.length];
+}
+export function limbGroundRef(_0x855b59, _0x13b924, _0x54433b) {
+  let _0x26db20 = -999;
+  for (let _0xeae9b = _0x13b924; _0xeae9b < _0x54433b; _0xeae9b++) {
+    if (_0x855b59[_0xeae9b] > -100) {
+      _0x26db20 = Math.max(_0x26db20, _0x855b59[_0xeae9b]);
+    }
+  }
+  if (_0x26db20 > -100) {
+    return _0x26db20;
+  } else {
+    return 3;
+  }
+}
+export function limbChunkRanges(_0x25f770, _0x332c3c, _0x3e75fc) {
+  const _0x2d62cc = [];
+  for (let _0x44667a = _0x25f770; _0x44667a < _0x332c3c; _0x44667a += _0x3e75fc) {
+    _0x2d62cc.push([_0x44667a, Math.min(_0x44667a + _0x3e75fc, _0x332c3c)]);
+  }
+  return _0x2d62cc;
+}
+export function limbFoldBridgeVisible(_0x17112a, _0x2b4bf4, _0x4ad2f3, _0x212fe4) {
+  if (_0x17112a.facet === _0x2b4bf4) {
+    return true;
+  }
+  if (Math.abs(_0x17112a.facet - _0x2b4bf4) !== 1) {
+    return false;
+  }
+  const _0x44f503 = _0x4ad2f3[Math.min(_0x17112a.facet, _0x2b4bf4)];
+  if (!Number.isFinite(_0x44f503)) {
+    return false;
+  }
+  const _0x5f2f54 = _0x212fe4 / 2;
+  const _0x5ab363 = _0x17112a.s - _0x17112a.w / 2;
+  return _0x17112a.s + _0x17112a.w / 2 >= _0x44f503 - _0x5f2f54 - 1e-9 && _0x5ab363 <= _0x44f503 + _0x5f2f54 + 1e-9;
+}
+export function limbSpanHasGap(_0x50383e, _0x543471, _0x48d5ac) {
+  for (let _0x3c191c = Math.floor(_0x543471); _0x3c191c < Math.ceil(_0x48d5ac); _0x3c191c++) {
+    if (!(_0x50383e[_0x3c191c] > -100)) {
+      return true;
+    }
+  }
+  return false;
+}
+function s(_0x1f264f, _0x1ae354) {
+  return (_0x1f264f * 2654435761 >>> 0) % _0x1ae354;
+}
+function n(_0x5bfbe5, _0x555da9, _0x381fb2, _0x28e815, _0x21a249, _0x43daeb, _0x9cbff1, _0x1ecfde, _0x1e832c, _0x24ce4c = 0, _0x575e2a = null) {
+  const _0x3b707f = {
+    kind: _0x555da9,
+    facet: _0x381fb2,
+    s: _0x28e815,
+    w: _0x21a249,
+    y: _0x43daeb,
+    h: _0x9cbff1,
+    depth: _0x1ecfde,
+    d: _0x1e832c
+  };
+  if (_0x24ce4c) {
+    _0x3b707f.roll = _0x24ce4c;
+  }
+  if (_0x575e2a) {
+    _0x3b707f.shape = _0x575e2a;
+  }
+  _0x5bfbe5.push(_0x3b707f);
+}
+export function limbBakePlan(_0x1802f8, _0x4f47f4, _0x3d7826 = {}) {
+  const _0x565f51 = _0x3d7826.scale !== false;
+  const _0x2b2e4b = [];
+  (function (_0xc19236, _0x5677d9, _0x11b0f8, _0x12c6db) {
+    const _0x2f0839 = _0x5677d9.limb;
+    const _0x247bd2 = _0x2f0839.entryShoulder;
+    if (!_0x247bd2 || !(_0x247bd2.back > 0)) {
+      return;
+    }
+    const _0x329d7e = {
+      k: 0,
+      s0: -_0x247bd2.back,
+      s1: 0
+    };
+    const _0x4e1a0a = _0x247bd2.deckY - 4;
+    for (const [_0x3cfdcd, [_0x45b45c, _0x4928c7]] of limbChunkRanges(_0x329d7e.s0, _0x329d7e.s1, _0x2f0839.chunkCols).entries()) {
+      const _0x5b8a67 = _0x4928c7 - _0x45b45c;
+      const _0x5a1f45 = (_0x45b45c + _0x4928c7) / 2;
+      n(_0xc19236, "hull", 0, _0x5a1f45, _0x5b8a67, _0x4e1a0a - _0x2f0839.hull.drop / 2, _0x2f0839.hull.drop, _0x2f0839.hull.depth, _0x2f0839.hull.thickness, _0x2f0839.hull.tiltDeg * Math.PI / 180);
+      _0xc19236[_0xc19236.length - 1].surfaceDepthOrdinal = _0x3cfdcd;
+      n(_0xc19236, "hullRib", 0, _0x5a1f45, _0x5b8a67, _0x4e1a0a - _0x2f0839.hull.ribH / 2, _0x2f0839.hull.ribH, _0x2f0839.hull.depth - 0.5, _0x2f0839.hull.ribThickness);
+    }
+    for (let _0x5161fd = _0x329d7e.s0; _0x5161fd < _0x329d7e.s1; _0x5161fd += _0x247bd2.plateCols) {
+      const _0x277177 = Math.min(_0x329d7e.s1, _0x5161fd + _0x247bd2.plateCols);
+      const _0x43eefa = _0x277177 - _0x5161fd;
+      const _0x11a472 = s(Math.floor(_0x5161fd) + 97, 3);
+      const _0x590d96 = _0x247bd2.plateH - _0x11a472 * 0.24;
+      const _0x44706a = (_0x11a472 - 1) * 0.055;
+      const _0x1462e6 = Math.abs(Math.cos(_0x44706a)) * _0x590d96 / 2 + Math.abs(Math.sin(_0x44706a)) * (_0x43eefa + 0.7) / 2;
+      n(_0xc19236, "scute", 0, (_0x5161fd + _0x277177) / 2, _0x43eefa + 0.7, _0x247bd2.deckY - _0x247bd2.topInset - _0x11a472 * 0.16 - _0x1462e6, _0x590d96, _0x247bd2.plateDepth - _0x11a472 * 0.12, _0x247bd2.plateThickness, _0x44706a);
+    }
+    i(_0xc19236, _0x329d7e, _0x5677d9, _0x11b0f8);
+    if (_0x12c6db) {
+      a(_0xc19236, _0x329d7e, _0x5677d9);
+    }
+  })(_0x2b2e4b, _0x1802f8, _0x4f47f4, _0x565f51);
+  for (const _0x33da71 of limbFacets(_0x1802f8)) {
+    r(_0x2b2e4b, _0x33da71, _0x1802f8, _0x4f47f4, _0x565f51);
+  }
+  for (const _0x447361 of limbJoints(_0x1802f8)) {
+    h(_0x2b2e4b, _0x447361, _0x1802f8, _0x4f47f4);
+  }
+  return _0x2b2e4b;
+}
+function r(_0xe14bf0, _0x5b9186, _0x4f0900, _0x2b8c9a, _0x53033a) {
+  const _0x3ace20 = _0x4f0900.limb;
+  const _0x3129e7 = _0x5b9186.k;
+  for (const [_0x5ce966, [_0x230c31, _0x5a235e]] of limbChunkRanges(_0x5b9186.s0, _0x5b9186.s1, _0x3ace20.chunkCols).entries()) {
+    const _0x94d984 = _0x5a235e - _0x230c31;
+    const _0xa78681 = (_0x230c31 + _0x5a235e) / 2;
+    const _0x240bcd = limbGroundRef(_0x2b8c9a, _0x230c31, _0x5a235e) - 4;
+    n(_0xe14bf0, "hull", _0x3129e7, _0xa78681, _0x94d984, _0x240bcd - _0x3ace20.hull.drop / 2, _0x3ace20.hull.drop, _0x3ace20.hull.depth, _0x3ace20.hull.thickness, _0x3ace20.hull.tiltDeg * Math.PI / 180);
+    _0xe14bf0[_0xe14bf0.length - 1].surfaceDepthOrdinal = _0x5ce966;
+    n(_0xe14bf0, "hullRib", _0x3129e7, _0xa78681, _0x94d984, _0x240bcd - _0x3ace20.hull.ribH / 2, _0x3ace20.hull.ribH, _0x3ace20.hull.depth - 0.5, _0x3ace20.hull.ribThickness);
+  }
+  i(_0xe14bf0, _0x5b9186, _0x4f0900, _0x2b8c9a);
+  const _0x543979 = _0x3ace20.kerb;
+  const _0x1a41d2 = _0x3ace20.planeHalfDepth + _0x543979.outward - _0x543979.thickness / 2;
+  for (let _0x135b17 = _0x5b9186.s0; _0x135b17 < _0x5b9186.s1; _0x135b17++) {
+    if (_0x2b8c9a[_0x135b17] > -100) {
+      n(_0xe14bf0, "kerb", _0x3129e7, _0x135b17 + 0.5, 1 + _0x543979.overlap, _0x2b8c9a[_0x135b17] - _0x543979.under - _0x543979.h / 2, _0x543979.h, _0x1a41d2, _0x543979.thickness);
+    }
+  }
+  const _0x5aa1b7 = _0x3ace20.lipScute;
+  const _0x329aa1 = _0x5aa1b7.tiltDeg * Math.PI / 180;
+  for (let _0x82a629 = _0x5b9186.s0; _0x82a629 < _0x5b9186.s1; _0x82a629 += _0x5aa1b7.every) {
+    const _0x27105a = Math.min(_0x82a629 + _0x5aa1b7.every, _0x5b9186.s1);
+    let _0x3f573c = Infinity;
+    let _0x3933ef = true;
+    for (let _0x4b694e = Math.floor(_0x82a629); _0x4b694e < Math.ceil(_0x27105a); _0x4b694e++) {
+      if (!(_0x2b8c9a[_0x4b694e] > -100)) {
+        _0x3933ef = false;
+        break;
+      }
+      _0x3f573c = Math.min(_0x3f573c, _0x2b8c9a[_0x4b694e]);
+    }
+    if (!_0x3933ef || _0x27105a - _0x82a629 < 2) {
+      continue;
+    }
+    const _0x4fafce = Math.min(_0x5aa1b7.len, _0x27105a - _0x82a629 + 0.7);
+    const _0x3ca2b8 = Math.abs(Math.cos(_0x329aa1)) * _0x5aa1b7.h / 2 + Math.abs(Math.sin(_0x329aa1)) * _0x4fafce / 2;
+    n(_0xe14bf0, "lipScute", _0x3129e7, (_0x82a629 + _0x27105a) / 2, _0x4fafce, _0x3f573c - _0x5aa1b7.under - _0x3ca2b8, _0x5aa1b7.h, _0x5aa1b7.depth, _0x5aa1b7.thickness, _0x329aa1, "scute");
+  }
+  const _0x323953 = _0x3ace20.scute;
+  for (let _0xccf031 = _0x5b9186.s0; _0xccf031 < _0x5b9186.s1; _0xccf031 += _0x323953.every) {
+    const _0x439e10 = _0xccf031;
+    const _0x3a4a76 = Math.min(_0xccf031 + _0x323953.every, _0x5b9186.s1);
+    if (_0x3a4a76 - _0x439e10 < 2) {
+      continue;
+    }
+    const _0x3c639c = limbGroundRef(_0x2b8c9a, _0x439e10, _0x3a4a76);
+    const _0x2c0f6e = s(_0x439e10, 3);
+    const _0x2bc816 = Math.min(_0x323953.len, _0x5b9186.s1 - _0x439e10 + 0.4);
+    const _0x59a2fa = _0x3c639c - 4 - _0x323953.under - (_0x2c0f6e === 1 ? _0x323953.stagger : 0);
+    const _0x402b52 = _0x323953.depth - (_0x2c0f6e === 2 ? _0x323953.stagger : 0);
+    const _0x5cd53b = _0x323953.tiltDeg * Math.PI / 180;
+    const _0x431a2b = Math.abs(Math.cos(_0x5cd53b)) * _0x323953.h / 2 + Math.abs(Math.sin(_0x5cd53b)) * _0x2bc816 / 2;
+    n(_0xe14bf0, "scute", _0x5b9186.k, _0x439e10 + _0x2bc816 / 2 - 0.2, _0x2bc816, _0x59a2fa - _0x431a2b, _0x323953.h, _0x402b52, _0x323953.thickness, _0x5cd53b);
+    if (_0x439e10 / _0x323953.every % _0x323953.ribEvery === 0) {
+      const _0x2dc631 = -_0x5cd53b * 0.55;
+      const _0x43ce52 = Math.abs(Math.cos(_0x2dc631)) * _0x323953.ribH / 2 + Math.abs(Math.sin(_0x2dc631)) * _0x323953.ribW / 2;
+      n(_0xe14bf0, "scuteRib", _0x5b9186.k, _0x439e10 + 0.5, _0x323953.ribW, _0x59a2fa - _0x43ce52, _0x323953.ribH, _0x402b52 + 0.2, _0x323953.thickness + 0.4, _0x2dc631);
+    }
+  }
+  if (!_0x53033a) {
+    const _0x2d3aed = _0x5b9186.s1 - _0x5b9186.s0;
+    for (const _0x4648a0 of _0x3ace20.silhouette) {
+      n(_0xe14bf0, "silhouette", _0x5b9186.k, _0x5b9186.s0 + _0x4648a0.atFrac * _0x2d3aed, _0x4648a0.w, _0x4648a0.y0 + _0x4648a0.h / 2, _0x4648a0.h, _0x4648a0.depth, _0x4648a0.thickness);
+    }
+    return;
+  }
+  (function (_0x4c1600, _0x52af03, _0x1e44d4) {
+    const _0x1d3cc6 = _0x1e44d4.limb.backdrop.sister;
+    const _0x3a49b3 = _0x52af03.k;
+    const _0x41b5f7 = function (_0x50a667, _0x15165e) {
+      const _0x820c67 = _0x15165e.limb.backdrop.sister;
+      const _0x2ca265 = _0x50a667.s1 - _0x50a667.s0;
+      const _0x4071c5 = _0x2ca265 * _0x820c67.span;
+      const _0x2edb6f = Math.max(0, _0x2ca265 - _0x4071c5 - _0x2ca265 * _0x820c67.spanAt);
+      const _0x2dc2be = _0x50a667.s0 + _0x2ca265 * _0x820c67.spanAt + s(_0x50a667.k * 3 + 1, 4) * _0x2edb6f / 4;
+      const _0x2effb6 = Math.max(2, Math.round(_0x4071c5 / _0x820c67.segW));
+      return {
+        s0: _0x2dc2be,
+        segs: _0x2effb6,
+        step: _0x4071c5 / _0x2effb6,
+        dir: s(_0x50a667.k * 7 + 3, 2) === 0 ? 1 : -1,
+        base: _0x820c67.y0 + _0x820c67.rise / 2 + s(_0x50a667.k * 11 + 5, _0x820c67.ySteps) * _0x820c67.yStep
+      };
+    }(_0x52af03, _0x1e44d4);
+    const {
+      segs: _0x3599bb,
+      step: _0xee2cb2
+    } = _0x41b5f7;
+    const _0x17ae0c = _0x41b5f7.dir * Math.atan2(_0x1d3cc6.rise, _0x3599bb * _0xee2cb2) * _0x1d3cc6.rake;
+    for (let _0x36de7f = 0; _0x36de7f < _0x3599bb; _0x36de7f++) {
+      const _0x3311dd = o(_0x36de7f, _0x41b5f7, _0x1d3cc6);
+      const _0x59596a = _0x41b5f7.s0 + (_0x36de7f + 0.5) * _0xee2cb2;
+      const _0x564f11 = _0xee2cb2 + _0x1d3cc6.overlap;
+      n(_0x4c1600, "bdLimb", _0x3a49b3, _0x59596a, _0x564f11, _0x3311dd + _0x1d3cc6.segH / 2 + _0x1d3cc6.rakeLift, _0x1d3cc6.segH, _0x1d3cc6.depth, _0x1d3cc6.thickness, _0x17ae0c);
+      n(_0x4c1600, "bdLimbLip", _0x3a49b3, _0x59596a, _0x564f11, _0x3311dd + _0x1d3cc6.segH - _0x1d3cc6.lipH / 2 + _0x1d3cc6.rakeLift, _0x1d3cc6.lipH, _0x1d3cc6.depth + _0x1d3cc6.lipOut, _0x1d3cc6.thickness, _0x17ae0c);
+      if (_0x36de7f % _0x1d3cc6.ringEvery === 0) {
+        n(_0x4c1600, "bdRing", _0x3a49b3, _0x59596a - _0x564f11 / 2, _0x1d3cc6.ringW, _0x3311dd + (_0x1d3cc6.segH + _0x1d3cc6.ringOver) / 2 + _0x1d3cc6.rakeLift, _0x1d3cc6.segH + _0x1d3cc6.ringOver, _0x1d3cc6.depth + _0x1d3cc6.ringOut, _0x1d3cc6.thickness);
+      }
+    }
+    (function (_0x2e415e, _0x5cb8a6, _0x4900c4, _0x2e55d9) {
+      const _0x403a3c = _0x4900c4.limb.mark;
+      const _0x5563f1 = _0x4900c4.limb.backdrop.sister;
+      const _0x5e8c33 = _0x5cb8a6.k;
+      const _0x55a5d0 = _0x5563f1.depth + _0x5563f1.thickness / 2 + _0x5563f1.lipOut + 0.3;
+      const _0x4096a8 = _0x163434 => {
+        const _0x312210 = Math.min(_0x2e55d9.segs - 1, Math.max(0, Math.round(_0x163434 * (_0x2e55d9.segs - 1))));
+        return {
+          s: _0x2e55d9.s0 + (_0x312210 + 0.5) * _0x2e55d9.step,
+          bottom: o(_0x312210, _0x2e55d9, _0x5563f1)
+        };
+      };
+      const _0x422bc7 = _0x4096a8(_0x403a3c.ladder.at);
+      l(_0x2e415e, "mark", _0x5e8c33, _0x422bc7.s, _0x422bc7.bottom + _0x5563f1.segH - 0.5 + _0x5563f1.rakeLift, _0x5563f1.segH - 1.4, _0x55a5d0, _0x403a3c);
+      const _0x362a35 = _0x403a3c.rail;
+      const _0x2dadaf = _0x4096a8(_0x362a35.at);
+      const _0x357b83 = _0x2dadaf.bottom + _0x5563f1.segH + _0x5563f1.rakeLift + _0x362a35.postH;
+      n(_0x2e415e, "markRail", _0x5e8c33, _0x2dadaf.s, _0x362a35.len, _0x357b83, _0x362a35.barH, _0x55a5d0, _0x403a3c.thickness);
+      for (let _0x1347aa = -Math.floor(_0x362a35.len / 2 / _0x362a35.postEvery); _0x1347aa <= Math.floor(_0x362a35.len / 2 / _0x362a35.postEvery); _0x1347aa++) {
+        n(_0x2e415e, "markPost", _0x5e8c33, _0x2dadaf.s + _0x1347aa * _0x362a35.postEvery, _0x362a35.postW, _0x357b83 - _0x362a35.postH / 2, _0x362a35.postH, _0x55a5d0, _0x403a3c.thickness);
+      }
+    })(_0x4c1600, _0x52af03, _0x1e44d4, _0x41b5f7);
+  })(_0xe14bf0, _0x5b9186, _0x4f0900);
+  (function (_0x4eac43, _0x4e88e9, _0x31051c) {
+    const _0x14534c = _0x31051c.limb.backdrop.spine;
+    const _0x2c685e = _0x4e88e9.k;
+    const _0xc9a14f = _0x4e88e9.s1 - _0x4e88e9.s0;
+    const _0x5b4667 = Math.max(1, Math.round(_0xc9a14f / _0x14534c.every));
+    const _0x8e4705 = _0xc9a14f / _0x5b4667;
+    const _0x55308b = [];
+    for (let _0x19897a = 0; _0x19897a < _0x5b4667; _0x19897a++) {
+      const _0x1b0c2b = _0x4e88e9.s0 + (_0x19897a + 0.5) * _0x8e4705;
+      const _0x5ac61f = (1 + Math.sin(_0x19897a * 0.85 + _0x2c685e * 1.7)) / 2;
+      const _0x21be67 = _0x14534c.y0 + _0x5ac61f * _0x14534c.ySteps * _0x14534c.yStep;
+      const _0x209e3b = _0x21be67 + _0x14534c.drumH * _0x14534c.barrel.reduce((_0x172f2d, [, _0x546afd]) => _0x172f2d + _0x546afd, 0) / 2;
+      let _0x1cd346 = _0x21be67;
+      for (const [_0x27de47, _0x4c0fcb] of _0x14534c.barrel) {
+        n(_0x4eac43, "bdDrum", _0x2c685e, _0x1b0c2b, _0x14534c.drumW * _0x27de47, _0x1cd346 + _0x14534c.drumH * _0x4c0fcb / 2, _0x14534c.drumH * _0x4c0fcb, _0x14534c.depth, _0x14534c.thickness);
+        _0x1cd346 += _0x14534c.drumH * _0x4c0fcb;
+      }
+      _0x55308b.push({
+        s: _0x1b0c2b,
+        mid: _0x209e3b
+      });
+    }
+    for (let _0x5ad47b = 1; _0x5ad47b < _0x5b4667; _0x5ad47b++) {
+      const _0x3e4ff1 = _0x55308b[_0x5ad47b - 1];
+      const _0x164074 = _0x55308b[_0x5ad47b];
+      n(_0x4eac43, "bdLink", _0x2c685e, (_0x3e4ff1.s + _0x164074.s) / 2, _0x164074.s - _0x3e4ff1.s + 0.4, (_0x3e4ff1.mid + _0x164074.mid) / 2, _0x14534c.linkH, _0x14534c.depth - 0.6, _0x14534c.thickness);
+    }
+  })(_0xe14bf0, _0x5b9186, _0x4f0900);
+  (function (_0x24220a, _0x3579c1, _0x221b53) {
+    const _0x3a155d = _0x221b53.limb.backdrop.far;
+    const _0x557403 = _0x3579c1.k;
+    const _0x580711 = _0x221b53.path.chamferTiles;
+    const _0x47644a = Math.max(0, _0x3579c1.s0 - _0x580711);
+    const _0x4bc632 = Math.min(_0x221b53.levelLength, _0x3579c1.s1 + _0x580711);
+    const _0x1175e5 = _0x4bc632 - _0x47644a;
+    const _0x10ac55 = Math.max(1, Math.round(_0x1175e5 / _0x3a155d.segW));
+    const _0x389216 = _0x1175e5 / _0x10ac55;
+    for (let _0x895f22 = 0; _0x895f22 < _0x10ac55; _0x895f22++) {
+      const _0x292ee9 = _0x3a155d.tops[s(_0x557403 * 17 + _0x895f22 * 3, _0x3a155d.tops.length)];
+      n(_0x24220a, "bdFar", _0x557403, _0x47644a + (_0x895f22 + 0.5) * _0x389216, _0x389216 + _0x3a155d.overlap, (_0x3a155d.y0 + _0x292ee9) / 2, _0x292ee9 - _0x3a155d.y0, _0x3a155d.depth, _0x3a155d.thickness);
+    }
+    const _0x4f2731 = Math.min(_0x10ac55 - 1, Math.floor(_0x3a155d.spireAt * _0x10ac55));
+    const _0x11e7d7 = _0x3a155d.tops[s(_0x557403 * 17 + _0x4f2731 * 3, _0x3a155d.tops.length)];
+    const _0x5d875e = _0x47644a + (_0x4f2731 + 0.5) * _0x389216;
+    for (let _0x4f65a9 = 0; _0x4f65a9 < _0x3a155d.spires; _0x4f65a9++) {
+      const _0x447f52 = _0x3a155d.spireH[s(_0x557403 * 19 + _0x4f65a9 * 7, _0x3a155d.spireH.length)];
+      n(_0x24220a, "bdSpire", _0x557403, _0x5d875e + (_0x4f65a9 - (_0x3a155d.spires - 1) / 2) * _0x3a155d.spireGap, _0x3a155d.spireW, _0x11e7d7 - 1.5 + _0x447f52 / 2, _0x447f52, _0x3a155d.depth - 0.4, _0x3a155d.thickness * 0.8);
+    }
+  })(_0xe14bf0, _0x5b9186, _0x4f0900);
+  a(_0xe14bf0, _0x5b9186, _0x4f0900);
+}
+function i(_0x2f6810, _0x56a785, _0x4ad51d, _0x20faa2) {
+  const _0x5d37c2 = _0x4ad51d.limb.anatomy;
+  const _0x53e109 = _0x4ad51d.limb.wall;
+  const _0x9b0408 = _0x5d37c2.gill;
+  const _0x1411f5 = _0x5d37c2.rib;
+  const _0xa39fa3 = _0x5d37c2.tendon;
+  const _0x529ebc = _0x56a785.k;
+  const _0x4710b0 = _0x9b0408.tiltDeg * Math.PI / 180;
+  const _0x1e383a = -_0x1411f5.tiltDeg * Math.PI / 180;
+  const _0x585e30 = _0xa39fa3.tiltDeg * Math.PI / 180;
+  const _0x656850 = _0x4ad51d.levelLength - _0x4ad51d.path.outroTiles - 16;
+  for (let _0x585298 = _0x56a785.s0 + 10; _0x585298 < _0x56a785.s1 - 4; _0x585298 += _0x9b0408.every) {
+    if (_0x585298 >= _0x656850) {
+      continue;
+    }
+    const _0x488705 = limbGroundRef(_0x20faa2, _0x585298 - _0x9b0408.slitW / 2, _0x585298 + _0x9b0408.slitW / 2);
+    const _0x325c9b = (s(Math.floor(_0x585298) + _0x529ebc * 13, 3) - 1) * 0.5;
+    const _0x23b30c = _0x9b0408.pitch * (_0x9b0408.slits - 1) + 3.2;
+    n(_0x2f6810, "wall", _0x529ebc, _0x585298, _0x9b0408.slitW + 3.2, _0x488705 + 0.6 + _0x325c9b, _0x23b30c, _0x53e109.depth, _0x53e109.thickness, _0x4710b0 * 0.45);
+    for (let _0x219edc = 0; _0x219edc < _0x9b0408.slits; _0x219edc++) {
+      n(_0x2f6810, "gill", _0x529ebc, _0x585298 + _0x219edc * 0.22, _0x9b0408.slitW - _0x219edc * 0.72, _0x488705 - 0.8 + _0x325c9b + _0x219edc * _0x9b0408.pitch, _0x9b0408.slitH, _0x9b0408.depth, _0x9b0408.thickness, _0x4710b0);
+    }
+    n(_0x2f6810, "bodyRib", _0x529ebc, _0x585298 - _0x9b0408.slitW * 0.56, _0x1411f5.w, _0x488705 + 1.7, _0x1411f5.h, _0x1411f5.depth, _0x1411f5.thickness, _0x1e383a);
+  }
+  for (let _0x5e4f0c = _0x56a785.s0 + 12; _0x5e4f0c < _0x56a785.s1 - 5; _0x5e4f0c += _0xa39fa3.every) {
+    const _0x53bcc4 = limbGroundRef(_0x20faa2, _0x5e4f0c - _0xa39fa3.w / 2, _0x5e4f0c + _0xa39fa3.w / 2);
+    const _0x420a97 = Math.abs(Math.cos(_0x585e30)) * _0xa39fa3.h / 2 + Math.abs(Math.sin(_0x585e30)) * _0xa39fa3.w / 2;
+    const _0x386593 = _0x53bcc4 - 5.25;
+    for (let _0x12930d = 0; _0x12930d < _0xa39fa3.bands; _0x12930d++) {
+      n(_0x2f6810, "flankTendon", _0x529ebc, _0x5e4f0c, _0xa39fa3.w, _0x386593 - _0x420a97 - _0x12930d * _0xa39fa3.gap, _0xa39fa3.h, _0xa39fa3.depth, _0xa39fa3.thickness, _0x585e30);
+    }
+  }
+}
+function o(_0x172dde, _0x3e4e5a, _0x4f436f) {
+  const _0x3cba6e = _0x3e4e5a.segs > 1 ? _0x172dde / (_0x3e4e5a.segs - 1) : 0.5;
+  return Math.max(_0x4f436f.y0, _0x3e4e5a.base + _0x3e4e5a.dir * _0x4f436f.rise * (_0x3cba6e - 0.5));
+}
+function l(_0x4635c4, _0x1eb668, _0x36a5dd, _0x56bc20, _0x149572, _0x37fa67, _0x2ccbdb, _0x729f2f) {
+  const _0x1c0cba = _0x729f2f.ladder;
+  n(_0x4635c4, _0x1eb668 + "Stile", _0x36a5dd, _0x56bc20 - _0x1c0cba.rungW / 2, _0x1c0cba.stileW, _0x149572 - _0x37fa67 / 2, _0x37fa67, _0x2ccbdb, _0x729f2f.thickness);
+  n(_0x4635c4, _0x1eb668 + "Stile", _0x36a5dd, _0x56bc20 + _0x1c0cba.rungW / 2, _0x1c0cba.stileW, _0x149572 - _0x37fa67 / 2, _0x37fa67, _0x2ccbdb, _0x729f2f.thickness);
+  for (let _0x39103d = _0x149572 - 0.3; _0x39103d > _0x149572 - _0x37fa67; _0x39103d -= _0x1c0cba.pitch) {
+    n(_0x4635c4, _0x1eb668 + "Rung", _0x36a5dd, _0x56bc20, _0x1c0cba.rungW, _0x39103d, _0x1c0cba.rungH, _0x2ccbdb, _0x729f2f.thickness);
+  }
+}
+function a(_0x2bf625, _0x56f52f, _0x3c70ab) {
+  const _0x5000d6 = _0x3c70ab.limb.mark;
+  const _0x5d1b41 = _0x56f52f.k;
+  const _0x8c798d = _0x5000d6.out;
+  const _0x336c2e = _0x5000d6.band.y0;
+  for (let _0x29cf5a = Math.ceil(_0x56f52f.s0 / _0x5000d6.ladder.every) * _0x5000d6.ladder.every; _0x29cf5a < _0x56f52f.s1 - 1; _0x29cf5a += _0x5000d6.ladder.every) {
+    l(_0x2bf625, "mark", _0x5d1b41, _0x29cf5a + 0.5, _0x336c2e, _0x5000d6.ladder.runH, _0x8c798d, _0x5000d6);
+  }
+  const _0x290592 = _0x5000d6.hatch;
+  for (let _0x108f75 = Math.ceil((_0x56f52f.s0 + _0x290592.every / 2) / _0x290592.every) * _0x290592.every; _0x108f75 < _0x56f52f.s1 - 1; _0x108f75 += _0x290592.every) {
+    const _0x390341 = _0x5000d6.band.y0 - _0x290592.rimH / 2 - 0.8 - s(_0x5d1b41 * 23 + _0x108f75, 4) * 1.2;
+    n(_0x2bf625, "markRim", _0x5d1b41, _0x108f75 + 0.5, _0x290592.rimW, _0x390341, _0x290592.rimH, _0x8c798d, _0x5000d6.thickness);
+    n(_0x2bf625, "markPanel", _0x5d1b41, _0x108f75 + 0.5, _0x290592.panelW, _0x390341, _0x290592.panelH, _0x8c798d + _0x5000d6.proud, _0x5000d6.thickness);
+  }
+  const _0x46ba74 = _0x5000d6.door;
+  for (let _0x9df4ac = Math.ceil((_0x56f52f.s0 + _0x46ba74.every / 3) / _0x46ba74.every) * _0x46ba74.every; _0x9df4ac < _0x56f52f.s1 - 1; _0x9df4ac += _0x46ba74.every) {
+    const _0x50ad68 = _0x5000d6.band.y1 + 0.35 + s(_0x5d1b41 * 29 + _0x9df4ac, 3) * 1.05;
+    n(_0x2bf625, "markRim", _0x5d1b41, _0x9df4ac + 0.5, _0x46ba74.rimW, _0x50ad68 + _0x46ba74.rimH / 2, _0x46ba74.rimH, _0x8c798d, _0x5000d6.thickness);
+    n(_0x2bf625, "markPanel", _0x5d1b41, _0x9df4ac + 0.5, _0x46ba74.panelW, _0x50ad68 + _0x46ba74.panelH / 2, _0x46ba74.panelH, _0x8c798d + _0x5000d6.proud, _0x5000d6.thickness);
+    n(_0x2bf625, "markRim", _0x5d1b41, _0x9df4ac + 0.5, _0x46ba74.rimW + 1.6, _0x50ad68 - _0x46ba74.sillH / 2, _0x46ba74.sillH, _0x8c798d + _0x5000d6.proud, _0x5000d6.thickness);
+  }
+}
+function h(_0x584472, _0x4d2278, _0x30d22a, _0x58c919) {
+  const _0x41fd0b = _0x30d22a.limb.joint;
+  const _0x6e8b21 = _0x4d2278.k;
+  const _0x483226 = Math.max(0, _0x6e8b21 - 1);
+  const _0x576efe = limbGroundRef(_0x58c919, _0x4d2278.apron0, _0x4d2278.apron1);
+  const _0x66ff56 = _0x4d2278.sMid;
+  const _0x20fb95 = _0x4d2278.k === _0x30d22a.path.faces;
+  const _0x25f460 = _0x20fb95 ? 0.2 : _0x41fd0b.ridgeAbove;
+  const _0x15af21 = _0x41fd0b.ridgeBelow + _0x25f460;
+  n(_0x584472, "ridge", _0x483226, _0x66ff56, _0x41fd0b.ridgeW, _0x576efe - _0x41fd0b.ridgeBelow + _0x15af21 / 2, _0x15af21, _0x41fd0b.ridgeDepth, _0x41fd0b.ridgeThickness);
+  if (!_0x20fb95) {
+    n(_0x584472, "collar", _0x6e8b21, _0x66ff56, _0x41fd0b.collarW, _0x576efe + _0x41fd0b.collarAt, _0x41fd0b.collarH, _0x41fd0b.collarDepth, _0x41fd0b.collarThickness);
+  }
+  if (!_0x20fb95) {
+    n(_0x584472, "tendon", _0x483226, _0x66ff56 - 1.6, _0x41fd0b.tendonW, _0x576efe + 4, 14, _0x41fd0b.tendonDepth, _0x41fd0b.tendonThickness);
+    n(_0x584472, "tendon", _0x483226, _0x66ff56 + 1.6, _0x41fd0b.tendonW, _0x576efe + 4, 14, _0x41fd0b.tendonDepth, _0x41fd0b.tendonThickness);
+  }
+  const _0xd99c1 = _0x30d22a.limb.kerb;
+  const _0x51280c = _0x30d22a.limb.planeHalfDepth + _0xd99c1.outward - _0xd99c1.thickness / 2;
+  for (let _0x5ac54e = _0x4d2278.s; _0x5ac54e < _0x4d2278.s + _0x30d22a.path.chamferTiles; _0x5ac54e++) {
+    if (_0x58c919[_0x5ac54e] > -100) {
+      n(_0x584472, "kerb", _0x6e8b21, _0x5ac54e + 0.5, 1 + _0xd99c1.overlap, _0x58c919[_0x5ac54e] - _0xd99c1.under - _0xd99c1.h / 2, _0xd99c1.h, _0x51280c, _0xd99c1.thickness);
+    }
+  }
+  n(_0x584472, "buttress", _0x6e8b21, _0x66ff56, _0x41fd0b.buttressW, _0x41fd0b.buttressTop - _0x41fd0b.buttressH / 2 + _0x576efe - 3, _0x41fd0b.buttressH, _0x41fd0b.buttressDepth, _0x41fd0b.buttressThickness);
+  n(_0x584472, "cup", _0x6e8b21, _0x66ff56, _0x41fd0b.cupW, _0x41fd0b.cupTop - _0x41fd0b.cupH / 2 + _0x576efe - 3, _0x41fd0b.cupH, _0x41fd0b.cupDepth, _0x41fd0b.cupThickness);
+}
+export function limbOutwardReach(_0x39cba0, _0x26e315) {
+  return _0x39cba0.depth + _0x39cba0.d / 2 - _0x26e315.limb.planeHalfDepth;
+}
+export function limbSpansPlayBand(_0x58bc1d, _0xf3bb4) {
+  const _0x10bb32 = _0xf3bb4.limb.playBand;
+  return _0x58bc1d.y + _0x58bc1d.h / 2 > _0x10bb32.y0 && _0x58bc1d.y - _0x58bc1d.h / 2 < _0x10bb32.y1;
+}
+export function limbInJointApron(_0x5407a9, _0x2e3c65) {
+  const _0x48050c = _0x5407a9.s - _0x5407a9.w / 2;
+  const _0x3df145 = _0x5407a9.s + _0x5407a9.w / 2;
+  return limbJoints(_0x2e3c65).some(_0x7fa0e9 => _0x48050c >= _0x7fa0e9.apron0 && _0x3df145 <= _0x7fa0e9.apron1);
+}
+export function limbFogFactor(_0x22321c, _0x522275) {
+  const _0x168aab = _0x522275.limb.fog;
+  return (Math.abs(_0x22321c) + _0x522275.camera.z - _0x168aab.near) / (_0x168aab.far - _0x168aab.near);
+}
+export function limbBackdropPieces(_0x306716, _0x28ff0c) {
+  return _0x306716.filter(_0x4e887c => _0x4e887c.depth < _0x28ff0c.limb.wall.depth);
+}
+export function limbAbovePlayBand(_0x16a705, _0x236c74, _0x4b900c) {
+  const _0x3422fe = _0x236c74.camera;
+  const _0x4a815c = _0x3422fe.z * _0x4b900c;
+  return (_0x16a705.y - _0x16a705.h / 2 - _0x3422fe.y) / (_0x4a815c + Math.abs(_0x16a705.depth)) > (_0x236c74.limb.playBand.y1 - _0x3422fe.y) / _0x4a815c;
+}
+export function limbBackdropGaps(_0x317605, _0x1ec1ae, _0x2b4b03) {
+  const _0x3636cd = _0x317605.filter(_0x1fe24e => _0x1fe24e.kind === "bdFar");
+  const _0x5c0670 = [];
+  let _0x97ff8 = null;
+  for (let _0x37a0e5 = 0; _0x37a0e5 <= _0x1ec1ae.levelLength; _0x37a0e5 += 0.5) {
+    const _0x34079a = _0x3636cd.some(_0x1973e2 => _0x1973e2.s - _0x1973e2.w / 2 <= _0x37a0e5 + _0x2b4b03 && _0x1973e2.s + _0x1973e2.w / 2 >= _0x37a0e5 - _0x2b4b03);
+    if (!_0x34079a && _0x97ff8 === null) {
+      _0x97ff8 = _0x37a0e5;
+    }
+    if (_0x34079a && _0x97ff8 !== null) {
+      _0x5c0670.push([_0x97ff8, _0x37a0e5]);
+      _0x97ff8 = null;
+    }
+  }
+  if (_0x97ff8 !== null) {
+    _0x5c0670.push([_0x97ff8, _0x1ec1ae.levelLength]);
+  }
+  return _0x5c0670;
+}
+export function limbPlanViolations(_0x2725ad, _0x2327b6, _0x23986f) {
+  const _0x105d6f = _0x2327b6.limb;
+  const _0x3f92b5 = [];
+  for (const _0x526938 of _0x2725ad) {
+    const _0x36898b = limbOutwardReach(_0x526938, _0x2327b6);
+    if (!(_0x36898b <= 0)) {
+      if (_0x526938.kind === "kerb" || _0x526938.kind === "lipScute") {
+        const _0x38264d = _0x23986f[Math.floor(_0x526938.s)];
+        if (!(_0x526938.y + _0x526938.h / 2 <= _0x38264d + 1e-9)) {
+          _0x3f92b5.push({
+            piece: _0x526938,
+            why: "kerb rises to or above the deck it edges"
+          });
+        }
+        if (_0x36898b > _0x105d6f.kerbOutwardMax) {
+          _0x3f92b5.push({
+            piece: _0x526938,
+            why: "kerb reaches past the kerb limit"
+          });
+        }
+        continue;
+      }
+      if (limbSpansPlayBand(_0x526938, _0x2327b6)) {
+        _0x3f92b5.push({
+          piece: _0x526938,
+          why: "outward piece enters the play band"
+        });
+      }
+      if (_0x36898b > _0x105d6f.fallOutwardMax && !limbInJointApron(_0x526938, _0x2327b6)) {
+        _0x3f92b5.push({
+          piece: _0x526938,
+          why: "outward mass past a possible gap"
+        });
+      }
+      if (_0x36898b > _0x105d6f.jointOutwardMax) {
+        _0x3f92b5.push({
+          piece: _0x526938,
+          why: "outward mass past the joint limit"
+        });
+      }
+      if (_0x36898b > _0x105d6f.fallOutwardMax && limbSpanHasGap(_0x23986f, _0x526938.s - _0x526938.w / 2, _0x526938.s + _0x526938.w / 2)) {
+        _0x3f92b5.push({
+          piece: _0x526938,
+          why: "outward mass over a gap column"
+        });
+      }
+    }
+  }
+  return _0x3f92b5;
+}

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "runtimeProfile": "three-webgl2",
+  "three": {
+    "version": "0.184.0",
+    "revision": "184",
+    "import": "./three.module.js",
+    "coreImport": "./three.core.js",
+    "webgpuImport": "./three.webgpu.js",
+    "tslImport": "./three.tsl.js",
+    "addonsImportPrefix": "./three-addons/"
+  },
+  "rapier": {
+    "version": "0.14.0",
+    "format": "esm",
+    "sha256": "b9f252644ebf751f84c598c6c146e62d61b35cca43cedb494de94e0368437ea2",
+    "import": "./rapier.es.js",
+    "optional": true
+  },
+  "capabilities": {
+    "three-core": {
+      "available": true,
+      "defaultEnabled": true
+    },
+    "gltf": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "controls-orbit": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "lighting": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "postprocessing-lite": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "physics-rapier": {
+      "available": true,
+      "defaultEnabled": false
+    },
+    "diagnostics": {
+      "available": true,
+      "defaultEnabled": true
+    },
+    "webgpu-tsl-render-pipeline": {
+      "available": true,
+      "defaultEnabled": false
+    }
+  },
+  "rendererProfiles": {
+    "three-webgl2": {
+      "default": true,
+      "renderer": "WebGLRenderer",
+      "pipeline": "EffectComposer-lite"
+    },
+    "three-webgpu-tsl": {
+      "default": false,
+      "renderer": "WebGPURenderer",
+      "pipeline": "RenderPipeline/TSL",
+      "backendFallback": "WebGL2"
+    }
+  }
+}

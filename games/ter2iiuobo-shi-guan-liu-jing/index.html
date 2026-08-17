@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+<script id="__og-game-config">window.__OG_GAME={"id":"ter2iiuobo","version":2,"releaseId":"release_ter2iiuobo_v2"}</script>
+<script src="/__og/og-sdk.js"></script>
+<link rel="manifest" href="./manifest.webmanifest">
+<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(function(){})})}</script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07111f" />
+    <title>蚀冠：六境守望</title>
+    <script type="module" crossorigin src="./assets/game-mTtrH5kA.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="stylesheet" crossorigin href="./assets/game-C3wVx806.css">
+  </head>
+  <body>
+    <main id="app">
+      <section id="start-screen" class="screen start-screen">
+        <div class="menu-backdrop" aria-hidden="true"></div>
+        <div class="menu-vignette" aria-hidden="true"></div>
+        <div id="menu-particles" class="menu-particles" aria-hidden="true"></div>
+        <div class="crown-aura" aria-hidden="true"></div>
+
+        <div class="main-menu">
+          <p class="menu-kicker">六境暗潮塔防</p>
+          <h1><span>蚀冠</span>六境守望</h1>
+          <div class="title-rule" aria-hidden="true"><i></i><b>◆</b><i></i></div>
+          <p class="menu-prologue">守住王冠，击退从地牢与五境而来的怪物军团</p>
+          <div class="menu-actions">
+            <button id="new-game-button" class="menu-button primary" type="button">新游戏</button>
+            <button id="continue-button" class="menu-button secondary" type="button" hidden>继续游戏</button>
+            <button id="level-select-button" class="menu-button secondary" type="button">关卡选择</button>
+            <button id="settings-button" class="menu-button secondary" type="button">设置</button>
+          </div>
+          <p id="save-summary" class="save-summary" hidden></p>
+          <p class="control-tip">鼠标或触屏操作 · 进度会在每一波自动保存</p>
+          <p class="author-credit">作者：One</p>
+        </div>
+
+        <div id="settings-modal" class="settings-modal" hidden>
+          <div class="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+            <button id="settings-close" class="level-select-close" type="button" aria-label="关闭">×</button>
+            <p class="menu-kicker">显示与声音</p>
+            <h2 id="settings-title">游戏设置</h2>
+            <div class="settings-grid">
+              <label>游戏质量
+                <select id="quality-setting">
+                  <option value="low">低 · 较低分辨率 / 少量粒子</option>
+                  <option value="medium">中 · 标准分辨率（默认）</option>
+                  <option value="high">高 · 高清分辨率 / 丰富粒子</option>
+                </select>
+              </label>
+              <label>帧率
+                <select id="fps-setting">
+                  <option value="low">低 · 30 FPS</option>
+                  <option value="medium">中 · 60 FPS（默认）</option>
+                  <option value="high">高 · 120 FPS</option>
+                  <option value="custom">自定义</option>
+                </select>
+              </label>
+              <label id="custom-fps-row" hidden>自定义帧率
+                <input id="custom-fps-setting" type="number" min="24" max="240" step="1" inputmode="numeric" value="60" />
+                <small>支持 24–240 FPS，实际帧率取决于设备和屏幕。</small>
+              </label>
+              <label>音乐音量 <output id="music-volume-output">70%</output>
+                <input id="music-volume-setting" type="range" min="0" max="100" value="70" />
+              </label>
+              <label>音效音量 <output id="sfx-volume-output">72%</output>
+                <input id="sfx-volume-setting" type="range" min="0" max="100" value="72" />
+              </label>
+              <label class="settings-toggle"><input id="screen-shake-setting" type="checkbox" checked /> 战斗镜头震动</label>
+              <label class="settings-toggle"><input id="reduced-motion-setting" type="checkbox" /> 减少动态效果</label>
+            </div>
+            <p class="settings-note">画质或帧率变更会在下一次进入战斗时完整生效。</p>
+            <div class="replay-confirm-actions">
+              <button id="settings-reset" class="menu-button secondary" type="button">恢复默认</button>
+              <button id="settings-save" class="menu-button primary" type="button">保存设置</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="level-select-modal" class="level-select-modal" hidden>
+          <div class="level-select-panel" role="dialog" aria-modal="true" aria-labelledby="level-select-title">
+            <button id="level-select-close" class="level-select-close" type="button" aria-label="关闭">×</button>
+            <div class="level-map-heading">
+              <div>
+                <p class="menu-kicker">六境王冠远征图</p>
+                <h2 id="level-select-title">世界地图</h2>
+                <p class="level-select-copy">点击世界地图上的地标，进入已解锁的关卡。</p>
+              </div>
+              <p id="level-map-summary" class="level-map-summary"></p>
+            </div>
+            <div class="level-select-map" aria-label="六个关卡的世界地图">
+              <div class="map-world-art" aria-hidden="true"></div>
+              <div id="level-map-shades" class="level-map-shades" aria-hidden="true"></div>
+              <div id="level-select-list" class="level-select-list"></div>
+            </div>
+            <div class="level-map-legend">
+              <span><i class="legend-dot available"></i>可出征</span>
+              <span><i class="legend-dot cleared"></i>已通关</span>
+              <span><i class="legend-lock">◆</i>未解锁</span>
+              <span class="legend-stars">评分按失血量计算：<b>★★★★★</b></span>
+            </div>
+          </div>
+        </div>
+
+        <div id="replay-confirm-modal" class="replay-confirm-modal" hidden>
+          <div class="replay-confirm-panel" role="dialog" aria-modal="true" aria-labelledby="replay-confirm-title">
+            <p class="menu-kicker">王冠远征</p>
+            <h2 id="replay-confirm-title">重新游玩关卡</h2>
+            <p id="replay-confirm-copy"></p>
+            <div class="replay-confirm-actions">
+              <button id="replay-cancel-button" class="menu-button secondary" type="button">取消</button>
+              <button id="replay-confirm-button" class="menu-button primary" type="button">确认并重新评分</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="game-screen" class="screen game-screen" hidden>
+        <div id="game"></div>
+        <button id="back-button" class="back-button" type="button">退出战斗</button>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-labelledby="mark-title mark-desc">
+  <title id="mark-title">咒术防线六路结界徽章</title>
+  <desc id="mark-desc">融合六条防御路线、结界阵眼与高专门形的游戏专属标记</desc>
+  <defs>
+    <linearGradient id="mark-cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d7fff5"/>
+      <stop offset="0.48" stop-color="#67e7cc"/>
+      <stop offset="1" stop-color="#249b89"/>
+    </linearGradient>
+    <filter id="mark-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <path d="M80 10L131 39L131 98L80 150L29 121L29 62Z" fill="#06130f" fill-opacity="0.88" stroke="#173d35" stroke-width="4"/>
+
+  <g fill="none" stroke="url(#mark-cyan)" stroke-width="5" stroke-linecap="square">
+    <path d="M80 10L112 28"/>
+    <path d="M122 34L131 39L131 72"/>
+    <path d="M131 89L131 98L106 123"/>
+    <path d="M96 133L80 150L57 137"/>
+    <path d="M46 131L29 121L29 91"/>
+    <path d="M29 75L29 62L58 30"/>
+  </g>
+
+  <g fill="#f1d477">
+    <rect x="76" y="7" width="8" height="8" transform="rotate(45 80 11)"/>
+    <rect x="127" y="75" width="8" height="8" transform="rotate(45 131 79)"/>
+    <rect x="76" y="145" width="8" height="8" transform="rotate(45 80 149)"/>
+  </g>
+
+  <g fill="none" stroke="#75ead1" stroke-width="3" opacity="0.72">
+    <path d="M80 39V58"/>
+    <path d="M115 57L98 67"/>
+    <path d="M115 103L98 93"/>
+    <path d="M80 121V102"/>
+    <path d="M45 103L62 93"/>
+    <path d="M45 57L62 67"/>
+  </g>
+
+  <path d="M49 48H111L103 40H57Z" fill="#f0d27a"/>
+  <path d="M57 49V61M103 49V61" stroke="#f0d27a" stroke-width="5"/>
+
+  <g filter="url(#mark-glow)">
+    <path d="M48 80Q64 61 80 80Q96 99 112 80Q96 61 80 80Q64 99 48 80Z" fill="none" stroke="url(#mark-cyan)" stroke-width="4"/>
+    <circle cx="80" cy="80" r="7" fill="#f0d27a" stroke="#07110f" stroke-width="3"/>
+  </g>
+
+  <path d="M64 112H96" stroke="#f0d27a" stroke-width="3"/>
+  <path d="M70 119H90" stroke="#67e7cc" stroke-width="2"/>
+</svg>

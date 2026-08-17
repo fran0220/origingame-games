@@ -1,0 +1,173 @@
+{
+  "source": "https://origingame.dev",
+  "recoveredAt": "2026-08-17",
+  "note": "Latest published client of each active unsigned/protected game. Third-party open-source titles with existing GitHub repos were not copied.",
+  "skipped": [
+    {
+      "id": "yupadwblpc",
+      "title": "OriginGame Trail",
+      "reason": "open source, already at https://github.com/fran0220/origingame-trail"
+    },
+    {
+      "id": "mbrbu0gbqj",
+      "title": "太阳系观测台",
+      "reason": "open source, source_url https://github.com/fran0220/origingame"
+    },
+    {
+      "id": "om3hntesmx",
+      "title": "史前动物博物馆",
+      "reason": "third-party open source, https://github.com/s010s/prehistoric-animal-museum"
+    },
+    {
+      "id": "dukhb2p266",
+      "title": "King's Gambit",
+      "reason": "third-party open source, https://github.com/alexngdev99/rork-medieval-3d-chess"
+    },
+    {
+      "id": "fezugsg0sw",
+      "title": "REGOLITH",
+      "reason": "third-party open source, https://github.com/winchxyz/moon-rover"
+    },
+    {
+      "id": "wtqdiw6rxv",
+      "title": "AI训练营·路演汇报PPT制作课件",
+      "reason": "not a game"
+    }
+  ],
+  "games": [
+    {
+      "id": "ter2iiuobo",
+      "dir": "games/ter2iiuobo-shi-guan-liu-jing",
+      "title": "蚀冠：六境守望",
+      "engine": "html/phaser-3.90.0",
+      "version": 2,
+      "playUrl": "https://play.origingame.dev/ter2iiuobo/",
+      "portalUrl": "https://origingame.dev/g/ter2iiuobo",
+      "creatorHandle": "origingame",
+      "recoverability": "vite-bundle-plus-assets",
+      "hasOriginalSrcTree": false
+    },
+    {
+      "id": "c3x8wl1tqf",
+      "dir": "games/c3x8wl1tqf-skybound-rescue",
+      "title": "Skybound Rescue",
+      "engine": "threejs",
+      "version": 1,
+      "playUrl": "https://play.origingame.dev/c3x8wl1tqf/",
+      "portalUrl": "https://origingame.dev/g/c3x8wl1tqf",
+      "recoverability": "uploaded-src-tree-obfuscated-in-place",
+      "hasOriginalSrcTree": true
+    },
+    {
+      "id": "wvfbhxsl85",
+      "dir": "games/wvfbhxsl85-mo-fa-ta-fang",
+      "title": "魔法塔防",
+      "engine": "html",
+      "version": 1,
+      "playUrl": "https://play.origingame.dev/wvfbhxsl85/",
+      "portalUrl": "https://origingame.dev/g/wvfbhxsl85",
+      "recoverability": "uploaded-src-tree-obfuscated-in-place",
+      "hasOriginalSrcTree": true
+    },
+    {
+      "id": "qxpp0yf4ac",
+      "dir": "games/qxpp0yf4ac-chao-xi-wang-guo-a",
+      "title": "潮汐王国防线",
+      "engine": "html",
+      "version": 12,
+      "playUrl": "https://play.origingame.dev/qxpp0yf4ac/",
+      "portalUrl": "https://origingame.dev/g/qxpp0yf4ac",
+      "recoverability": "vite-bundle-plus-assets",
+      "hasOriginalSrcTree": false
+    },
+    {
+      "id": "oj0vp9xtgk",
+      "dir": "games/oj0vp9xtgk-chao-xi-wang-guo-b",
+      "title": "潮汐王国防线",
+      "engine": "html",
+      "version": 3,
+      "playUrl": "https://play.origingame.dev/oj0vp9xtgk/",
+      "portalUrl": "https://origingame.dev/g/oj0vp9xtgk",
+      "note": "Same title as qxpp0yf4ac, different game id and later iteration.",
+      "recoverability": "vite-bundle-plus-assets",
+      "hasOriginalSrcTree": false
+    },
+    {
+      "id": "vbgjfiixhq",
+      "dir": "games/vbgjfiixhq-ni-hong-fang-xian",
+      "title": "霓虹防线",
+      "engine": "html",
+      "version": 3,
+      "playUrl": "https://play.origingame.dev/vbgjfiixhq/",
+      "portalUrl": "https://origingame.dev/g/vbgjfiixhq",
+      "recoverability": "multi-file-client-obfuscated",
+      "hasOriginalSrcTree": false
+    },
+    {
+      "id": "yl2bl9uj1c",
+      "dir": "games/yl2bl9uj1c-chao-xi-wang-guan",
+      "title": "潮汐王冠",
+      "engine": "html",
+      "version": 3,
+      "playUrl": "https://play.origingame.dev/yl2bl9uj1c/",
+      "portalUrl": "https://origingame.dev/g/yl2bl9uj1c",
+      "recoverability": "vite-bundle-plus-assets",
+      "hasOriginalSrcTree": false
+    },
+    {
+      "id": "ue6p0zkohk",
+      "dir": "games/ue6p0zkohk-zhou-shu-fang-xian",
+      "title": "咒术防线",
+      "engine": "html",
+      "version": 2,
+      "playUrl": "https://play.origingame.dev/ue6p0zkohk/",
+      "portalUrl": "https://origingame.dev/g/ue6p0zkohk",
+      "recoverability": "vite-bundle-plus-assets",
+      "hasOriginalSrcTree": false
+    },
+    {
+      "id": "i18gfsti7v",
+      "dir": "games/i18gfsti7v-zhan-guo-feng-yan",
+      "title": "战国烽烟·函谷关",
+      "engine": "html",
+      "version": 1,
+      "playUrl": "https://play.origingame.dev/i18gfsti7v/",
+      "portalUrl": "https://origingame.dev/g/i18gfsti7v",
+      "recoverability": "single-file-game-js",
+      "hasOriginalSrcTree": false
+    },
+    {
+      "id": "fj29v1u14q",
+      "dir": "games/fj29v1u14q-hullbreaker",
+      "title": "HULLBREAKER",
+      "engine": "threejs",
+      "version": 2,
+      "playUrl": "https://play.origingame.dev/fj29v1u14q/",
+      "portalUrl": "https://origingame.dev/g/fj29v1u14q",
+      "recoverability": "uploaded-src-tree-obfuscated-in-place",
+      "hasOriginalSrcTree": true
+    },
+    {
+      "id": "g6soht516k",
+      "dir": "games/g6soht516k-fu-wen-ka-pai",
+      "title": "符文卡牌决斗",
+      "engine": "html",
+      "version": 1,
+      "playUrl": "https://play.origingame.dev/g6soht516k/",
+      "portalUrl": "https://origingame.dev/g/g6soht516k",
+      "recoverability": "single-html-inline",
+      "hasOriginalSrcTree": false
+    },
+    {
+      "id": "wqvj2930dl",
+      "dir": "games/wqvj2930dl-sky-switch",
+      "title": "Sky Switch",
+      "engine": "html",
+      "version": 1,
+      "playUrl": "https://play.origingame.dev/wqvj2930dl/",
+      "portalUrl": "https://origingame.dev/g/wqvj2930dl",
+      "recoverability": "single-file-game-js",
+      "hasOriginalSrcTree": false
+    }
+  ]
+}

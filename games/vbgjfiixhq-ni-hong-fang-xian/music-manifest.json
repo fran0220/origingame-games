@@ -1,0 +1,128 @@
+{
+  "version": 2,
+  "format": "mp3",
+  "sampleRateHz": 48000,
+  "bitrateKbps": 192,
+  "channels": 2,
+  "model": "music_v2",
+  "instrumental": true,
+  "audioRoot": "assets/audio/music",
+  "playback": {
+    "loop": true,
+    "defaultGainDb": -10,
+    "buses": {
+      "map": {
+        "priority": 50,
+        "gainDb": -10,
+        "fadeInSec": 0.8
+      },
+      "boss": {
+        "priority": 100,
+        "gainDb": -8,
+        "overrideMode": "exclusive",
+        "enterSec": 0.25,
+        "exitSec": 0.6,
+        "pauseMapWhileActive": true,
+        "resumeMapFromPreviousPosition": true
+      }
+    },
+    "ducking": {
+      "boss_mechanic": { "gainReductionDb": 12, "attackSec": 0.08, "releaseSec": 0.65 },
+      "battle_warning": { "gainReductionDb": 10, "attackSec": 0.1, "releaseSec": 0.55 },
+      "tactical_feedback": { "gainReductionDb": 8, "attackSec": 0.1, "releaseSec": 0.45 },
+      "character_flavor": { "gainReductionDb": 7, "attackSec": 0.12, "releaseSec": 0.4 },
+      "enemy_bark": { "gainReductionDb": 6, "attackSec": 0.12, "releaseSec": 0.35 }
+    }
+  },
+  "mapMusic": {
+    "scene-01-megastructure-h4": "level_01_megastructure_h4",
+    "scene-02-underground-mercenary-bar": "level_02_underground_mercenary_bar",
+    "scene-03-neon-market-braindance-club": "level_03_neon_market_braindance_club",
+    "scene-04-megatower-cloud-club": "level_04_megatower_cloud_club",
+    "scene-05-corporate-hotel-siege": "level_05_corporate_hotel_siege",
+    "scene-06-corporate-plaza-ai-core": "level_05_corporate_hotel_siege"
+  },
+  "bossMusic": {
+    "enforcer_zero": "boss_01_enforcer_zero",
+    "eve_9": "boss_02_eve_9"
+  },
+  "tracks": [
+    {
+      "id": "level_01_megastructure_h4",
+      "name": "H4：垂直贫民层",
+      "file": "level-01-megastructure-h4.mp3",
+      "sceneId": "scene-01-megastructure-h4",
+      "bpm": 104,
+      "durationSec": 48.024,
+      "role": "level",
+      "mood": "冷峻、拥挤、工业压迫",
+      "palette": ["analog synth pulse", "metal percussion", "sub bass"]
+    },
+    {
+      "id": "level_02_underground_mercenary_bar",
+      "name": "地下佣兵酒吧：钢铁后巷",
+      "file": "level-02-underground-mercenary-bar.mp3",
+      "sceneId": "scene-02-underground-mercenary-bar",
+      "bpm": 112,
+      "durationSec": 50.04,
+      "role": "level",
+      "mood": "粗粝、街头、可靠",
+      "palette": ["industrial electro-rock", "distorted synth bass", "dry drums"]
+    },
+    {
+      "id": "level_03_neon_market_braindance_club",
+      "name": "霓虹市场：失真记忆",
+      "file": "level-03-neon-market-braindance-club.mp3",
+      "sceneId": "scene-03-neon-market-braindance-club",
+      "bpm": 118,
+      "durationSec": 50.04,
+      "role": "level",
+      "mood": "迷幻、时髦、危险",
+      "palette": ["glitch club pulse", "elastic bass", "translucent synth"]
+    },
+    {
+      "id": "level_04_megatower_cloud_club",
+      "name": "H8 云端会所：玻璃牢笼",
+      "file": "level-04-megatower-cloud-club.mp3",
+      "sceneId": "scene-04-megatower-cloud-club",
+      "bpm": 122,
+      "durationSec": 52.032,
+      "role": "level",
+      "mood": "精致、垂直、企业威胁",
+      "palette": ["corporate techno", "glassy arpeggio", "security pulse"]
+    },
+    {
+      "id": "level_05_corporate_hotel_siege",
+      "name": "企业酒店围攻：封锁线",
+      "file": "level-05-corporate-hotel-siege.mp3",
+      "sceneId": "scene-05-corporate-hotel-siege",
+      "bpm": 126,
+      "durationSec": 55.032,
+      "role": "level",
+      "mood": "高压、军事、终局推进",
+      "palette": ["militaristic techno", "synthetic brass", "urgent sequencer"]
+    },
+    {
+      "id": "boss_01_enforcer_zero",
+      "name": "执法者·零号：焦土协议",
+      "file": "boss-01-enforcer-zero.mp3",
+      "bossId": "enforcer_zero",
+      "bpm": 132,
+      "durationSec": 60.024,
+      "role": "boss",
+      "mood": "机械、无情、确定",
+      "palette": ["mechanical march", "hydraulic impacts", "cold synth brass"]
+    },
+    {
+      "id": "boss_02_eve_9",
+      "name": "夏娃-9：永久静默",
+      "file": "boss-02-eve-9.mp3",
+      "bossId": "eve_9",
+      "bpm": 128,
+      "durationSec": 60.024,
+      "role": "boss",
+      "mood": "温柔、礼貌、令人不安",
+      "palette": ["glass harmonics", "public-service chimes", "corrupted lullaby motif"]
+    }
+  ]
+}
